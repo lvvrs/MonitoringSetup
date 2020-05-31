@@ -1,0 +1,15 @@
+---
+host_name:
+  monitor_name: monitor
+  client_name: client
+  storage_name: storage
+
+domain_name: .test.local
+
+user:
+  owner: vagrant
+  group: vagrant
+
+path:
+  apps: /apps
+  data: /data

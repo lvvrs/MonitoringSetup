@@ -1,0 +1,6 @@
+---
+- hosts: all
+  become: yes
+  gather_facts: False
+  roles:
+    - pre_install

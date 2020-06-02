@@ -1,0 +1,68 @@
+- name: Check_servers
+  ping:
+
+- name: Configure_monitor_server
+  block:
+
+    - name: Setup_hostname_for_monitoring_server
+      hostname:
+        name: "{{ host_name.monitor_name}}{{ domain_name }}"
+
+    - name: Create_apps_directory_on_monitor_server
+      file:
+        path: {{ path.apps }}
+        owner: {{ user.owner }}
+        group: {{ user.group }}
+        mode: '770'
+
+    - name: Create_data_directory_on_monitor_server
+      file:
+        path: {{ path.data }}
+        owner: {{ user.owner }}
+        group: {{ user.group }}
+        mode: '770'
+  when: group == 'monitor'
+
+- name: Configure_storage_server
+  blocK:
+
+    - name: Setup_hostname_for_storage_server
+      hostname:
+        name: "{{ host_name.storage_name}}{{ domain_name }}"
+
+    - name: Create_directory_for_apps
+      file:
+        path: {{ path.apps }}
+        owner: {{ user.owner }}
+        group: {{ user.group }}
+        mode: '770'
+
+    - name: Create_directory_for_data
+      file:
+        path: {{ path.data }}
+        owner: {{ user.owner }}
+        group: {{ user.group }}
+        mode: '770'
+
+  when: group == 'storage'
+
+- name: Configure_client_server
+  blocK:
+
+    - name: Setup_hostname_for_client_server
+      hostname:
+        name: "{{ host_name.client_name}}{{ domain_name }}"
+
+    - name: Create_directory_for_apps
+      file:
+        path: {{ path.apps }}
+        owner: {{ user.owner }}
+        group: {{ user.group }}
+        mode: '770'
+
+  when: group == 'client'
+
+
+
+
+

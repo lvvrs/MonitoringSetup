@@ -13,14 +13,14 @@
         path: {{ path.apps }}
         owner: {{ user.owner }}
         group: {{ user.group }}
-        mode: '770'
+        mode: '0770'
 
     - name: Create_data_directory_on_monitor_server
       file:
         path: {{ path.data }}
         owner: {{ user.owner }}
         group: {{ user.group }}
-        mode: '770'
+        mode: '0770'
   when: group == 'monitor'
 
 - name: Configure_storage_server
@@ -35,14 +35,14 @@
         path: {{ path.apps }}
         owner: {{ user.owner }}
         group: {{ user.group }}
-        mode: '770'
+        mode: '0770'
 
     - name: Create_directory_for_data
       file:
         path: {{ path.data }}
         owner: {{ user.owner }}
         group: {{ user.group }}
-        mode: '770'
+        mode: '0770'
 
   when: group == 'storage'
 
@@ -58,7 +58,7 @@
         path: {{ path.apps }}
         owner: {{ user.owner }}
         group: {{ user.group }}
-        mode: '770'
+        mode: '0770'
 
   when: group == 'client'
 

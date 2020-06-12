@@ -32,7 +32,12 @@ pipeline {
                 }
             }
             steps {
-
+                ansiColor('xterm') {
+                    ansiblePlaybook(
+                            playbook: 'monitoring-setup.yml',
+                            inventory: 'hosts',
+                            colorized: true)
+                }
             }
         }
     }

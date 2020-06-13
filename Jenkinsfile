@@ -25,13 +25,6 @@ pipeline {
                 sh 'ansible --version'
             }
         }
-        stage(Select_scripts_directory) {
-            steps {
-                dir("ansible_scripts") {
-                    sh 'pwd'
-                }
-            }
-        }
         stage('Run Ansible Playbook') {
             when {
                 expression {
@@ -39,12 +32,14 @@ pipeline {
                 }
             }
             steps {
-                sh 'pwd'
-                ansiColor('xterm') {
-                    ansiblePlaybook(
-                            playbook: 'monitoring-setup.yml',
-                            inventory: 'hosts',
-                            colorized: true)
+                dir("ansible_scripts") {
+                    ansiColor('xterm') {
+                        ansiblePlaybook(
+                                playbook: 'monitoring-setup.yml',
+                                inventory: 'hosts',
+                                colorized: true)
+
+                    }
                 }
             }
         }

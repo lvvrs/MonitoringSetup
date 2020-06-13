@@ -27,7 +27,9 @@ pipeline {
         }
         stage(Select_scripts_directory) {
             steps {
-                dir 'ansible_scripts'
+                dir(ansible_scripts) {
+                    sh 'pwd'
+                }
             }
         }
         stage('Run Ansible Playbook') {

@@ -39,6 +39,7 @@ pipeline {
                 }
             }
             steps {
+                sh 'pwd'
                 ansiColor('xterm') {
                     ansiblePlaybook(
                             playbook: 'monitoring-setup.yml',

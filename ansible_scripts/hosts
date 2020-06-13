@@ -1,11 +1,11 @@
 [monitor]
-monitor_server ansible_host = 192.168.1.xxx
+monitor_server ansible_host = 192.168.1.52
 
 [client]
-client_server ansible_host = 192.168.1.xxx
+client_server ansible_host = 192.168.1.63
 
 [storage]
-storage_server ansible_host = 192.168.1.xxx
+storage_server ansible_host = 192.168.1.64
 
 [apps_servers:children]
 monitor

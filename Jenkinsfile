@@ -32,6 +32,7 @@ pipeline {
                 }
             }
             steps {
+                sh 'ls -la'
                 ansiColor('xterm') {
                     ansiblePlaybook(
                             playbook: 'monitoring-setup.yml',

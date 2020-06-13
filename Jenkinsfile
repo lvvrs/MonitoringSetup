@@ -9,6 +9,7 @@ pipeline {
     options {
         buildDiscarder(logRotator(numToKeepStr: '30', artifactNumToKeepStr: '30'))
         timestamps()
+        ansiColor('xterm')
     }
     parameters {
         booleanParam(name: 'UpdateJfile', defaultValue: true, description: 'Update settings for deployment when Jenkinsfile was changed')

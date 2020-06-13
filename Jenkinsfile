@@ -25,6 +25,9 @@ pipeline {
                 sh 'ansible --version'
             }
         }
+        stage(Select_scripts_directory) {
+            dir 'ansible_scripts'
+        }
         stage('Run Ansible Playbook') {
             when {
                 expression {
@@ -32,7 +35,6 @@ pipeline {
                 }
             }
             steps {
-                sh 'ls -la'
                 ansiColor('xterm') {
                     ansiblePlaybook(
                             playbook: 'monitoring-setup.yml',

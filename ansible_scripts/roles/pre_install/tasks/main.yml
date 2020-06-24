@@ -40,7 +40,7 @@
   when: group == 'storage'
 
 - name: Configure_client_server
-  blocK:
+  block:
 
     - name: Setup_hostname_for_client_server
       hostname:

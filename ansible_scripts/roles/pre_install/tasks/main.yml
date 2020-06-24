@@ -21,7 +21,7 @@
   when: group == 'monitor'
 
 - name: Configure_storage_server
-  blocK:
+  block:
 
     - name: Setup_hostname_for_storage_server
       hostname:

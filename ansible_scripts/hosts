@@ -2,10 +2,10 @@
 monitor_server ansible_host=192.168.1.52
 
 [client]
-client_server ansible_host=192.168.1.63
+client_server ansible_host=192.168.1.66
 
 [storage]
-storage_server ansible_host=192.168.1.64
+storage_server ansible_host=192.168.1.67
 
 [apps_servers:children]
 monitor

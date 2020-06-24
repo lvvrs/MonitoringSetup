@@ -18,7 +18,7 @@
         - "{{ path.apps }}"
         - "{{ path.data }}"
 
-  when: group == 'monitor'
+  when: hosts == 'monitor'
 
 - name: Configure_storage_server
   block:
@@ -37,7 +37,7 @@
         - "{{ path.apps }}"
         - "{{ path.data }}"
 
-  when: group == 'storage'
+  when: hosts == 'storage'
 
 - name: Configure_client_server
   block:
@@ -53,7 +53,7 @@
         group: "{{ user.group }}"
         mode: '0770'
 
-  when: group == 'client'
+  when: hosts == 'client'
 
 - name: Install_base_support_packages
   yum:

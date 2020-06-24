@@ -33,8 +33,8 @@ pipeline {
                 }
             }
             steps {
-                dir("ansible_scripts") {
-                    ansiColor('xterm') {
+                ansiColor('xterm') {
+                    dir("ansible_scripts") {
                         ansiblePlaybook(
                                 playbook: 'monitoring-setup.yml',
                                 inventory: 'hosts',
@@ -46,3 +46,4 @@ pipeline {
         }
     }
 }
+

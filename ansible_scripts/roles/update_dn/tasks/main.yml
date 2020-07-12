@@ -53,6 +53,10 @@
 
   when: server_role == 'client_server'
 
+- name: check_monitor_ip
+  debug:
+    var: monitor_ip
+
 - name: Generate_/etc/hosts_file_and_apply_on_all_servers
   template:
     src: hosts.j2

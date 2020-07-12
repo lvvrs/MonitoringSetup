@@ -9,6 +9,7 @@
     - name: set_monitor_ip
       set_fact:
         monitor_ip: "{{ ansible_facts.eth0.ipv4.address }}"
+        cacheable: yes
 
     - name: check_monitor_ip
       debug:
@@ -27,6 +28,7 @@
     - name: set_storage_ip
       set_fact:
         storage_ip: "{{ ansible_facts.eth0.ipv4.address }}"
+        cacheable: yes
 
     - name: check_storage_ip
       debug:
@@ -46,6 +48,7 @@
     - name: set_client_ip
       set_fact:
         client_ip: "{{ ansible_facts.eth0.ipv4.address }}"
+        cacheable: yes
 
     - name: check_client_ip
       debug:

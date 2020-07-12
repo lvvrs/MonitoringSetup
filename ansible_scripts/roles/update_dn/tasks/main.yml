@@ -10,6 +10,10 @@
       set_fact:
         monitor_ip: "{{ ansible_facts.eth0.ipv4.address }}"
 
+    - name: check_monitor_ip
+      debug:
+        var: "{{ monitor_ip }}"
+
   when: server_role == 'monitor_server'
 
 - name: Get_ip-address_from_storage_server
@@ -24,6 +28,11 @@
       set_fact:
         storage_ip: "{{ ansible_facts.eth0.ipv4.address }}"
 
+    - name: check_storage_ip
+        debug:
+          var: "{{ storage_ip }}"
+
+
   when: server_role == 'storage_server'
 
 - name: Get_ip-address_from_client_server
@@ -37,6 +46,10 @@
     - name: set_client_ip
       set_fact:
         client_ip: "{{ ansible_facts.eth0.ipv4.address }}"
+
+    - name: check_client_ip
+      debug:
+        var: "{{ client_ip }}"
 
   when: server_role == 'client_server'
 

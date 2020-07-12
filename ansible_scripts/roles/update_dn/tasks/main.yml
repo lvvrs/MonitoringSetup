@@ -29,8 +29,8 @@
         storage_ip: "{{ ansible_facts.eth0.ipv4.address }}"
 
     - name: check_storage_ip
-        debug:
-          var: storage_ip
+      debug:
+        var: storage_ip
 
 
   when: server_role == 'storage_server'

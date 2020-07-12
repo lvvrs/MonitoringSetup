@@ -56,9 +56,13 @@
 
   when: server_role == 'client_server'
 
-- name: check_monitor_ip
+- name: check_monitors_ip
+  set_fact:
+    monitors_ip: "{{ monitor_ip }}"
+
+- name: check_monitors_ip
   debug:
-    var: monitor_ip
+    var: monitors_ip
 
 - name: Generate_/etc/hosts_file_and_apply_on_all_servers
   template:

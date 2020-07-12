@@ -1,6 +1,0 @@
----
-hosts:
-  names:
-    monitor: monitor.test.local
-    storage: storage.test.local
-    client: client.test.local

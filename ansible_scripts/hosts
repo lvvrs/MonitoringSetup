@@ -1,5 +1,5 @@
 [monitor]
-monitor_server ansible_host=192.168.1.52 server_role=monitoring_server
+monitor_server ansible_host=192.168.1.52 server_role=monitor_server
 
 [client]
 client_server ansible_host=192.168.1.66 server_role=client_server

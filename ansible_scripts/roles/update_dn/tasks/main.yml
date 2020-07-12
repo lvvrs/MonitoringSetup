@@ -1,11 +1,44 @@
 - name: Get_ip-address_from_monitor_server
   block:
-    setup:
-    register
 
+    - name: get_info_monitor_server
+      setup:
+        gather_subset:
+          - network
 
+    - name: set_monitor_ip
+      set_fact:
+        monitor_ip: "{{ ansible_facts.eth0.ipv4.address }}"
 
+  when: server_role == 'monitoring_server'
 
+- name: Get_ip-address_from_storage_server
+  block:
+
+    - name: get_info_storage_server
+      setup:
+        gather_subset:
+          - network
+
+    - name: set_storage_ip
+      set_fact:
+        storage_ip: "{{ ansible_facts.eth0.ipv4.address }}"
+
+  when: server_role == 'storage_server'
+
+- name: Get_ip-address_from_client_server
+  block:
+
+    - name: get_info_client_server
+      setup:
+        gather_subset:
+          - network
+
+    - name: set_client_ip
+      set_fact:
+        client_ip: "{{ ansible_facts.eth0.ipv4.address }}"
+
+  when: server_role == 'client_server'
 
 - name: Generate_/etc/hosts_file_and_apply_on_all_servers
   template:

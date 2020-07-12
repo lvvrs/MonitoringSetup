@@ -4,7 +4,7 @@
 - name: Configure_monitor_server
   block:
 
-    - name: Setup_hostname_for_monitoring_server
+    - name: Setup_hostname_for_monitor_server
       hostname:
         name: "{{ host_name.monitor_name}}{{ domain_name }}"
 
@@ -19,7 +19,7 @@
         - "{{ path.apps }}"
         - "{{ path.data }}"
 
-  when: server_role == 'monitoring_server'
+  when: server_role == 'monitor_server'
 
 - name: Configure_storage_server
   block:

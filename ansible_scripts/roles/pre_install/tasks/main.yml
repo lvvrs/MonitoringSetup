@@ -75,14 +75,11 @@
   yum:
     name: '*'
     state: latest
+  notify:
+    - Reboot_all_servers
 
-- name: Reboot_all_servers
-  reboot:
-    reboot_timeout: '180'
-    test_command: hostname
 
-- name: Check_servers_after_reboot
-  ping:
+
 
 
 

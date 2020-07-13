@@ -5,3 +5,9 @@
   roles:
     - pre_install
     - update_dn
+
+- hosts: monitor_servers
+  become: yes
+  gather_facts: False
+  roles:
+    - prometheus_setup

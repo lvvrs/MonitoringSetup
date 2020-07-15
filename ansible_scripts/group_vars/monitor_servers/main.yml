@@ -1,3 +1,10 @@
 ---
 host_name:
   monitor_name: monitor
+
+prometheus_arch:
+  url: 'https://github.com/prometheus/prometheus/releases/download/v2.19.2/'
+  distrib: 'prometheus-2.19.2.linux-amd64.tar.gz'
+  checksum: 'b532e1eda72fa3ad0060a9403939e61a6099382e30f85a464d8e261fcd2f11d0'
+
+

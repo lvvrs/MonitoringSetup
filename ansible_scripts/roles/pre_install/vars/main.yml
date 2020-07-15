@@ -1,8 +1,0 @@
----
-user:
-  owner: vagrant
-  group: vagrant
-
-path:
-  apps: /apps
-  data: /data

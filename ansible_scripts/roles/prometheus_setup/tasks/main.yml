@@ -1,1 +1,10 @@
 ---
+- name: Get_prometheus_distrib
+  get_url:
+    url: "{{ prometheus_arch.url }}{{ prometheus_arch.distrib }}"
+    dest: "{{ path.apps }}"
+    owner: "{{ user.owner }}"
+    group: "{{ user.group }}"
+    mode: '0770'
+    checksum: "{{ prometheus_arch.checksum }}"
+

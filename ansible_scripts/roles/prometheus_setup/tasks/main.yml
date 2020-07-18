@@ -2,9 +2,23 @@
 - name: Get_prometheus_distrib
   get_url:
     url: "{{ prometheus_arch.url }}{{ prometheus_arch.distrib }}"
-    dest: "{{ path.apps }}"
+    dest: "{{ path.tmp }}"
     owner: "{{ user.owner }}"
     group: "{{ user.group }}"
     mode: '0770'
     checksum: "{{ prometheus_arch.checksum }}"
+
+- name: UnArchiv_prometheus_distrib
+  unarchive:
+    src: "{{ path.tmp }}"
+    dest: "{{ prometheus_app_dir }}"
+    remote_src: yes
+
+- name: Delete_tmp_file_archive
+  file:
+    path: "{{ path.tmp }}/{{ prometheus_arch.distrib }}"
+    state: absent
+
+- name: Create_prometheus_db_directory
+
 

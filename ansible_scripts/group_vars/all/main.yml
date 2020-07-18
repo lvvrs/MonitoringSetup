@@ -8,3 +8,4 @@ user:
 path:
   apps: /apps
   data: /data
+  tmp: /tmp

@@ -19,6 +19,18 @@
     path: "{{ path.tmp }}/{{ prometheus_arch.distrib }}"
     state: absent
 
-- name: Create_prometheus_db_directory
+- name: Create_service_user_for_prometheus
+  user:
+    name: "{{ prometheus.service.user }}"
+    shell: "{{ prometheus.service.shell }}"
+    group: "{{ prometheus.service.group }}"
+    create_home: no
+
+- name: Create_DB_directory
+  file:
+    path: "{{ prometheus.db_dir }}"
+    owner: "{{ prometheus.service.user }}"
+    group: "{{ prometheus.service.group }}"
+    recurse: yes
 
 

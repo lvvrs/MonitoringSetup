@@ -33,4 +33,67 @@
     group: "{{ prometheus.service.group }}"
     recurse: yes
 
+- name: Create_group_prometheus-sys
+  group:
+    name: "{{ prometheus.sys-group }}"
+    state: present
+
+- name: Add_users_vagrant and_prometheus_in_group_prometheus-sys
+  user:
+    name: "{{ item }}"
+    groups: "{{ prometheus.sys-group}}"
+    append: yes
+  with_items:
+    - "{{ user.owner }}"
+    - "{{ prometheus.service.user }}"
+
+- name: Create_lib_dir
+  file:
+    path: "{{ lib_dir }}"
+    state: directory
+
+- name: Create_conf_and_exec_dir
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ user.owner }}"
+    group: "{{ prometheus.sys-group }}"
+    mode: '775'
+  with_items:
+    - "{{ conf_dir }}"
+    - "{{ exec_dir }}"
+
+- name: Copy_files_prometheus_to_lib_catalog
+  copy:
+    src: "{{ prometheus_app_dir }}/console_libraries"
+    dest: "{{ lib_dir}}/"
+    remote_src: yes
+
+- name: Copy_files_prometheus_to_conf_catalog
+  copy:
+    src: "{{ prometheus_app_dir }}/{{ item }}"
+    dest: "{{ conf_dir }}"
+    remote_src: yes
+    owner: "{{ user.owner }}"
+    group: "{{ prometheus.sys-group }}"
+    mode: '775'
+  with_items:
+    - consoles
+    - LICENCE
+    - NOTICE
+    - prometheus.yml
+
+- name: Copy_files_prometheus_to_exec_dir
+  copy:
+    src: "{{ prometheus_app_dir }}/{{ item }}"
+    dest: "{{ exec_dir }}"
+    remote_src: yes
+    owner: "{{ user.owner }}"
+    group: "{{ prometheus.sys-group }}"
+    mode: '775'
+  with_items:
+    - prometheus
+    - promtool
+    - tsdb
+
 

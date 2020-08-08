@@ -7,11 +7,14 @@ prometheus_arch:
   distrib: 'prometheus-2.19.2.linux-amd64.tar.gz'
   checksum: 'b532e1eda72fa3ad0060a9403939e61a6099382e30f85a464d8e261fcd2f11d0'
 prometheus:
-  app_dir: "{{ path_apps }}/prometheus-2.20.0-rc.0.linux-amd64"
-  db_dir: "{{ path_data }}/prometheus_db"
+  app_dir: "{{ path.apps }}/prometheus-2.20.0-rc.0.linux-amd64"
+  db_dir: "{{ path.data }}/prometheus_db"
   service:
     user: 'prometheus'
     group: 'prometheus'
     shell: '/sbin/nologin'
-
+  sys-group: 'prometheus-sys'
+  lib_dir: '/lib/prometheus'
+  conf_dir: '/etc/prometheus'
+  exec_dir: '/opt/prometheus'
 

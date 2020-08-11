@@ -8,16 +8,13 @@
       hostname:
         name: "{{ host_name.monitor_name}}{{ domain_name }}"
 
-    - name: Create_apps_and_data_directory_on_monitor_server
+    - name: Create_data_directory_on_monitor_server
       file:
-        path: "{{ item }}"
+        path: "{{ path.data }}"
         owner: "{{ user.owner }}"
         group: "{{ user.group }}"
         mode: '0770'
         state: directory
-      with_items:
-        - "{{ path.apps }}"
-        - "{{ path.data }}"
 
   when: server_role == 'monitor_server'
 
@@ -28,16 +25,13 @@
       hostname:
         name: "{{ host_name.storage_name}}{{ domain_name }}"
 
-    - name: Create_apps_and_data_directory_on_storage_server
+    - name: Create_data_directory_on_storage_server
       file:
-        path: "{{ item }}"
+        path: "{{ path.data }}"
         owner: "{{ user.owner }}"
         group: "{{ user.group }}"
         mode: '0770'
         state: directory
-      with_items:
-        - "{{ path.apps }}"
-        - "{{ path.data }}"
 
   when: server_role == 'storage_server'
 
@@ -47,14 +41,6 @@
     - name: Setup_hostname_for_client_server
       hostname:
         name: "{{ host_name.client_name}}{{ domain_name }}"
-
-    - name: Create_directory_for_apps_onclient_server
-      file:
-        path: "{{ path.apps }}"
-        owner: "{{ user.owner }}"
-        group: "{{ user.group }}"
-        mode: '0770'
-        state: directory
 
   when: server_role == 'client_server'
 

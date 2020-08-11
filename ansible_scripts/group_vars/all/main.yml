@@ -6,6 +6,5 @@ user:
   group: vagrant
 
 path:
-  apps: /apps
   data: /data
   tmp: /tmp

@@ -14,7 +14,9 @@ prometheus:
     group: 'prometheus'
     shell: '/sbin/nologin'
   sys-group: 'prometheus-sys'
-  lib_dir: '/lib/prometheus'
+  lib_dir: '/lib64/prometheus'
   conf_dir: '/etc/prometheus'
   exec_dir: '/opt/prometheus'
+  unit_dir: '/etc/systemd/system'
+
 

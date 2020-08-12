@@ -49,7 +49,7 @@
 
 - name: Create_lib_dir
   file:
-    path: "{{ lib_dir }}"
+    path: "{{ prometheus.lib_dir }}"
     state: directory
 
 - name: Create_conf_and_exec_dir
@@ -60,19 +60,19 @@
     group: "{{ prometheus.sys-group }}"
     mode: '775'
   with_items:
-    - "{{ conf_dir }}"
-    - "{{ exec_dir }}"
+    - "{{ prometheus.conf_dir }}"
+    - "{{ prometheus.exec_dir }}"
 
 - name: Copy_files_prometheus_to_lib_catalog
   copy:
     src: "{{ prometheus_app_dir }}/console_libraries"
-    dest: "{{ lib_dir}}/"
+    dest: "{{ prometheus.lib_dir }}/"
     remote_src: yes
 
 - name: Copy_files_prometheus_to_conf_catalog
   copy:
     src: "{{ prometheus_app_dir }}/{{ item }}"
-    dest: "{{ conf_dir }}"
+    dest: "{{ prometheus.conf_dir }}"
     remote_src: yes
     owner: "{{ user.owner }}"
     group: "{{ prometheus.sys-group }}"
@@ -86,7 +86,7 @@
 - name: Copy_files_prometheus_to_exec_dir
   copy:
     src: "{{ prometheus_app_dir }}/{{ item }}"
-    dest: "{{ exec_dir }}"
+    dest: "{{ prometheus.exec_dir }}"
     remote_src: yes
     owner: "{{ user.owner }}"
     group: "{{ prometheus.sys-group }}"
@@ -95,5 +95,21 @@
     - prometheus
     - promtool
     - tsdb
+
+- name: Copy_SystemD_unit_file_promethus
+  copy:
+    src: promethus.service
+    dest: "{{ prometheus.unit_dir }}"
+    owner: 'root'
+    group: 'root'
+    mode: '644'
+
+- name: Copy_EnvironmentFile_promethus
+  template:
+    src: promethus-options.j2
+    dest: "{{ prometheus.conf_dir }}/prometheus-options"
+    owner: "{{ user.owner }}"
+    group: "{{ promethues.sys-group }}"
+    mode: '664'
 
 

@@ -1,0 +1,16 @@
+[Unit]
+Description=Prometheus-Server
+Documentation=https://prometheus.io/docs/introduction/overview/
+After=network-online.target
+
+[Service]
+User=prometheus
+Group=prometheus
+Restart=on-failure
+EnvironmentFile=/etc/prometheus/prometheus-options
+ExecStart=/opt/prometheus $OPTIONS
+ExecReload=curl -X POST localhost:9090/-/reload
+ExecStop=/bin/kill -9 $MAINPID
+
+[Install]
+WantedBy=multi-user.target

@@ -99,7 +99,7 @@
 - name: Copy_SystemD_unit_file_promethus
   template:
     src: promethus.service.j2
-    dest: "{{ prometheus.unit_dir }}/promethus.service"
+    dest: "{{ prometheus.unit_dir }}/prometheus.service"
     owner: 'root'
     group: 'root'
     mode: '644'
@@ -109,7 +109,7 @@
     src: promethus-options.j2
     dest: "{{ prometheus.conf_dir }}/prometheus-options"
     owner: "{{ user.owner }}"
-    group: "{{ promethues.sys-group }}"
+    group: "{{ prometheus.sys-group }}"
     mode: '664'
 
 

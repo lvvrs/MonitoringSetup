@@ -97,9 +97,9 @@
     - tsdb
 
 - name: Copy_SystemD_unit_file_promethus
-  copy:
-    src: promethus.service
-    dest: "{{ prometheus.unit_dir }}"
+  template:
+    src: promethus.service.j2
+    dest: "{{ prometheus.unit_dir }}/promethus.service"
     owner: 'root'
     group: 'root'
     mode: '644'

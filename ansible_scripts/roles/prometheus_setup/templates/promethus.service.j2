@@ -7,8 +7,8 @@ After=network-online.target
 User=prometheus
 Group=prometheus
 Restart=on-failure
-EnvironmentFile=/etc/prometheus/prometheus-options
-ExecStart=/opt/prometheus $OPTIONS
+EnvironmentFile="{{ prometheus.conf_dir }}/prometheus-options"
+ExecStart="{{ prometheus.exec_dir }}/prometheus $OPTIONS"
 ExecReload=curl -X POST localhost:9090/-/reload
 ExecStop=/bin/kill -9 $MAINPID
 

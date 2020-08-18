@@ -112,4 +112,34 @@
     group: "{{ prometheus.sys-group }}"
     mode: '664'
 
+- name: Reload_systemd_units
+  systemd:
+    daemon_reload: yes
+
+- name: Change_permissions_on_prometheus_etc_files
+  file:
+    path: "{{ prometheus.conf_dir }}/{{ item }}"
+    state: touch
+    mode: '666'
+  with_items:
+    - LICENSE
+    - NOTICE
+    - prometheus.yml
+    - consoles/index.html.example
+    - consoles/node-cpu.html
+    - consoles/node-disk.html
+    - consoles/node.html
+    - consoles/node-overview.html
+    - consoles/prometheus.html
+    - consoles/prometheus-overview.html
+
+- name: Change_permissions_on_data_prometheus_dir
+  file:
+    path: "{{ path.data }}"
+    state: touch
+    owner: "{{ user.owner }}"
+    group: "{{ prometheus.sys-group }}"
+    mode: '775'
+
+
 

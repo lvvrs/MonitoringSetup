@@ -1,0 +1,7 @@
+#!/bin/bash
+set -euo pipefail;
+touch /tmp/prometheusconfig.hash
+if [[ $(find /etc/prometheus -type f | sort | xargs md5sum | md5sum) != $(cat /tmp/prometheusconfig.hash) ]]; then
+  find /etc/prometheus -type f | sort | xargs md5sum | md5sum > /tmp/prometheusconfig.hash;
+  curl -X POST http://localhost:9090/-/reload;
+fi

@@ -65,7 +65,7 @@
 
 - name: Copy_files_prometheus_to_lib_catalog
   copy:
-    src: "{{ prometheus_app_dir }}/console_libraries"
+    src: "{{ prometheus_app_dir }}"/console_libraries
     dest: "{{ prometheus.lib_dir }}/"
     remote_src: yes
 
@@ -99,7 +99,7 @@
 - name: Copy_SystemD_unit_file_promethus
   template:
     src: promethus.service.j2
-    dest: "{{ prometheus.unit_dir }}/prometheus.service"
+    dest: "{{ prometheus.unit_dir }}"/prometheus.service
     owner: 'root'
     group: 'root'
     mode: '644'
@@ -107,7 +107,7 @@
 - name: Copy_EnvironmentFile_promethus
   template:
     src: promethus-options.j2
-    dest: "{{ prometheus.conf_dir }}/prometheus-options"
+    dest: "{{ prometheus.conf_dir }}"/prometheus-options
     owner: "{{ user.owner }}"
     group: "{{ prometheus.sys-group }}"
     mode: '664'
@@ -141,5 +141,28 @@
     group: "{{ prometheus.sys-group }}"
     mode: '775'
 
+- name: Apply_prometheus_config
+  template:
+    src: prometheus.yml.j2
+    dest: "{{ prometheus.conf_dir }}"/prometheus.yml
+    owner: "{{ user.owner }}"
+    group: "{{ prometheus.sys-group }}"
+    mode: '664'
+    validate: "{{ prometheus.exec_dir }}"/promtool check config "{{ prometheus.conf_dir }}"/prometheus.yml %s
+
+- name: Add_prometheus_auto_reload_file
+  copy:
+    src: prometheus_auto_reload
+    dest: "{{ prometheus.exec_dir }}"/prometheus_auto_reload
+    owner: "{{ user.owner }}"
+    group: "{{ prometheus.sys-group }}"
+    mode: '775'
+
+- name: Create_crontap_auto_reload_promethues_configuration
+  cron:
+    name: "reload_prometheus"
+    minute: '10'
+    job: "{{ prometheus.exec_dir }}"/prometheus_auto_reload
+    user: "{{ user.owner }}"
 
 

@@ -5,12 +5,11 @@ After=network-online.target
 
 [Service]
 User=prometheus
-Group=prometheus
-Restart=on-failure
 EnvironmentFile="{{ prometheus.conf_dir }}/prometheus-options"
 ExecStart="{{ prometheus.exec_dir }}/prometheus $OPTIONS"
 ExecReload=curl -X POST localhost:9090/-/reload
 ExecStop=/bin/kill -9 $MAINPID
+Restart=on-failure
 
 [Install]
 WantedBy=multi-user.target

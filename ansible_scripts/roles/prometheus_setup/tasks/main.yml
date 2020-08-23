@@ -12,7 +12,10 @@
   unarchive:
     src: "{{ path.tmp }}"
     dest: "{{ prometheus.app_dir }}"
+    creates: "{{ prometheus.app_dir }}"
     remote_src: yes
+    extra_opts:
+      - --strip_components=1
 
 - name: Delete_tmp_file_archive
   file:
@@ -65,13 +68,13 @@
 
 - name: Copy_files_prometheus_to_lib_catalog
   copy:
-    src: "{{ prometheus_app_dir }}/console_libraries"
+    src: "{{ prometheus.app_dir }}/console_libraries"
     dest: "{{ prometheus.lib_dir }}/"
     remote_src: yes
 
 - name: Copy_files_prometheus_to_conf_catalog
   copy:
-    src: "{{ prometheus_app_dir }}/{{ item }}"
+    src: "{{ prometheus.app_dir }}/{{ item }}"
     dest: "{{ prometheus.conf_dir }}"
     remote_src: yes
     owner: "{{ user.owner }}"
@@ -85,7 +88,7 @@
 
 - name: Copy_files_prometheus_to_exec_dir
   copy:
-    src: "{{ prometheus_app_dir }}/{{ item }}"
+    src: "{{ prometheus.app_dir }}/{{ item }}"
     dest: "{{ prometheus.exec_dir }}"
     remote_src: yes
     owner: "{{ user.owner }}"

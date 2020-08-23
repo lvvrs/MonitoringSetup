@@ -12,8 +12,6 @@
   debug:
     msg:
     - "{{ prometheus.app_dir }}"
-    - "{{ user.owner }}"
-    - "{{ prometheus.sys-group }}"
 
 - name: Create_prometheus_app_dir
   file:

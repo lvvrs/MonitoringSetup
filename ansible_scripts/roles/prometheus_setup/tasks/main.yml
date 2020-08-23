@@ -10,7 +10,7 @@
 
 - name: Create_group_prometheus-sys
   group:
-    name: "{{ prometheus.sys-group }}"
+    name: "{{ prometheus.sys_group }}"
     state: present
 
 - name: Create_service_user_for_prometheus
@@ -23,7 +23,7 @@
 - name: Add_users_vagrant and_prometheus_in_group_prometheus-sys
   user:
     name: "{{ item }}"
-    groups: "{{ prometheus.sys-group}}"
+    groups: "{{ prometheus.sys_group}}"
     append: yes
   with_items:
     - "{{ user.owner }}"
@@ -34,7 +34,7 @@
     path: "{{ prometheus.app_dir }}"
     state: directory
     owner: "{{ user.owner }}"
-    group: "{{ prometheus.sys-group }}"
+    group: "{{ prometheus.sys_group }}"
     mode: '775'
 
 - name: UnArchiv_prometheus_distrib
@@ -54,7 +54,7 @@
   file:
     path: "{{ prometheus.db_dir }}"
     owner: "{{ prometheus.service.user }}"
-    group: "{{ prometheus.service.group }}"
+    group: "{{ prometheus.sys_group }}"
     recurse: yes
 
 - name: Create_lib_dir
@@ -67,7 +67,7 @@
     path: "{{ item }}"
     state: directory
     owner: "{{ user.owner }}"
-    group: "{{ prometheus.sys-group }}"
+    group: "{{ prometheus.sys_group }}"
     mode: '775'
   with_items:
     - "{{ prometheus.conf_dir }}"
@@ -85,7 +85,7 @@
     dest: "{{ prometheus.conf_dir }}"
     remote_src: yes
     owner: "{{ user.owner }}"
-    group: "{{ prometheus.sys-group }}"
+    group: "{{ prometheus.sys_group }}"
     mode: '775'
   with_items:
     - consoles
@@ -99,7 +99,7 @@
     dest: "{{ prometheus.exec_dir }}"
     remote_src: yes
     owner: "{{ user.owner }}"
-    group: "{{ prometheus.sys-group }}"
+    group: "{{ prometheus.sys_group }}"
     mode: '775'
   with_items:
     - prometheus
@@ -119,7 +119,7 @@
     src: promethus-options.j2
     dest: "{{ prometheus.conf_dir }}/prometheus-options"
     owner: "{{ user.owner }}"
-    group: "{{ prometheus.sys-group }}"
+    group: "{{ prometheus.sys_group }}"
     mode: '664'
 
 - name: Reload_systemd_units
@@ -148,7 +148,7 @@
     path: "{{ path.data }}"
     state: touch
     owner: "{{ user.owner }}"
-    group: "{{ prometheus.sys-group }}"
+    group: "{{ prometheus.sys_group }}"
     mode: '775'
 
 - name: Apply_prometheus_config
@@ -156,7 +156,7 @@
     src: prometheus.yml.j2
     dest: "{{ prometheus.conf_dir }}/prometheus.yml"
     owner: "{{ user.owner }}"
-    group: "{{ prometheus.sys-group }}"
+    group: "{{ prometheus.sys_group }}"
     mode: '664'
     validate: "{{ prometheus.exec_dir }}/promtool check config {{ prometheus.conf_dir }}/prometheus.yml %s"
 
@@ -165,7 +165,7 @@
     src: prometheus_auto_reload
     dest: "{{ prometheus.exec_dir }}/prometheus_auto_reload"
     owner: "{{ user.owner }}"
-    group: "{{ prometheus.sys-group }}"
+    group: "{{ prometheus.sys_group }}"
     mode: '775'
 
 - name: Create_crontap_auto_reload_promethues_configuration
@@ -196,9 +196,6 @@
   file:
     path: "{{ prometheus.app_dir }}"
     state: absent
-    owner: "{{ user.owner }}"
-    group: "{{ prometheus.sys-group }}"
-    mode: '775'
 
 
 

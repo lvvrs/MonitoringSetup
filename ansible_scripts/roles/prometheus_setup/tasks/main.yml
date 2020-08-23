@@ -8,11 +8,18 @@
     mode: '0770'
     checksum: "{{ prometheus_arch.checksum }}"
 
+- name: Create_prometheus_app_dir
+  file:
+    path: "{{ prometheus.app_dir }}"
+    state: directory
+    owner: "{{ user.owner }}"
+    group: "{{ prometheus.sys-group }}"
+    mode: '775'
+
 - name: UnArchiv_prometheus_distrib
   unarchive:
     src: "{{ path.tmp }}"
     dest: "{{ prometheus.app_dir }}"
-    creates: "{{ prometheus.app_dir }}"
     remote_src: yes
     extra_opts:
       - --strip_components=1
@@ -184,5 +191,14 @@
 - name: Check_Promethues
   uri:
     url: http://localhost:9090
+
+- name: Delete_prometheus_app_dir
+  file:
+    path: "{{ prometheus.app_dir }}"
+    state: absent
+    owner: "{{ user.owner }}"
+    group: "{{ prometheus.sys-group }}"
+    mode: '775'
+
 
 

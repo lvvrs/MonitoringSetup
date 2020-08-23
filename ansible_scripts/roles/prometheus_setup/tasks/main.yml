@@ -11,7 +11,7 @@
 - name: debug_variables
   debug:
     var: "{{ item }}"
-  whit_items:
+  whith_items:
     - "{{ prometheus.app_dir }}"
     - "{{ user.owner }}"
     - "{{ prometheus.sys-group }}"

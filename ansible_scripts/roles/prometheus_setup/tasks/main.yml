@@ -148,7 +148,7 @@
     owner: "{{ user.owner }}"
     group: "{{ prometheus.sys-group }}"
     mode: '664'
-    validate: "{{ prometheus.exec_dir }}/promtool check config" "{{ prometheus.conf_dir }}/prometheus.yml" %s
+    validate: "{{ prometheus.exec_dir }}/promtool check config {{ prometheus.conf_dir }}/prometheus.yml %s"
 
 - name: Add_prometheus_auto_reload_file
   copy:

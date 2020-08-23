@@ -8,6 +8,14 @@
     mode: '0770'
     checksum: "{{ prometheus_arch.checksum }}"
 
+- name: debug_variables
+  debug:
+    var: "{{ item }}"
+  whit_items:
+    - "{{ prometheus.app_dir }}"
+    - "{{ user.owner }}"
+    - "{{ prometheus.sys-group }}"
+
 - name: Create_prometheus_app_dir
   file:
     path: "{{ prometheus.app_dir }}"

@@ -7,7 +7,7 @@ prometheus_arch:
   distrib: 'prometheus-2.19.2.linux-amd64.tar.gz'
   checksum: 'sha256:68382959f73354b30479f9cc3e779cf80fd2e93010331652700dcc71f6b05586'
 prometheus:
-  app_dir: "{{ path.tmp }}/prometheus-2.20.0-rc.0.linux-amd64"
+  app_dir: "{{ path.tmp }}/prometheus-2.19.2.linux-amd64"
   db_dir: "{{ path.data }}/prometheus_db"
   service:
     user: 'prometheus'

@@ -10,8 +10,7 @@
 
 - name: debug_variables
   debug:
-    var: "{{ item }}"
-  whith_items:
+    msg:
     - "{{ prometheus.app_dir }}"
     - "{{ user.owner }}"
     - "{{ prometheus.sys-group }}"

@@ -17,7 +17,6 @@
   user:
     name: "{{ prometheus.service.user }}"
     shell: "{{ prometheus.service.shell }}"
-    group: "{{ prometheus.service.group }}"
     create_home: no
 
 - name: Add_users_vagrant and_prometheus_in_group_prometheus-sys

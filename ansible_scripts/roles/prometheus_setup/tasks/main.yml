@@ -38,7 +38,7 @@
 
 - name: UnArchiv_prometheus_distrib
   unarchive:
-    src: "{{ path.tmp }}"
+    src: "{{ path.tmp }}/{{ prometheus_arch.distrib }}"
     dest: "{{ prometheus.app_dir }}"
     remote_src: yes
     extra_opts:

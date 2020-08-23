@@ -8,10 +8,26 @@
     mode: '0770'
     checksum: "{{ prometheus_arch.checksum }}"
 
-- name: debug_variables
-  debug:
-    msg:
-    - "{{ prometheus.app_dir }}"
+- name: Create_group_prometheus-sys
+  group:
+    name: "{{ prometheus.sys-group }}"
+    state: present
+
+- name: Create_service_user_for_prometheus
+  user:
+    name: "{{ prometheus.service.user }}"
+    shell: "{{ prometheus.service.shell }}"
+    group: "{{ prometheus.service.group }}"
+    create_home: no
+
+- name: Add_users_vagrant and_prometheus_in_group_prometheus-sys
+  user:
+    name: "{{ item }}"
+    groups: "{{ prometheus.sys-group}}"
+    append: yes
+  with_items:
+    - "{{ user.owner }}"
+    - "{{ prometheus.service.user }}"
 
 - name: Create_prometheus_app_dir
   file:
@@ -34,33 +50,12 @@
     path: "{{ path.tmp }}/{{ prometheus_arch.distrib }}"
     state: absent
 
-- name: Create_service_user_for_prometheus
-  user:
-    name: "{{ prometheus.service.user }}"
-    shell: "{{ prometheus.service.shell }}"
-    group: "{{ prometheus.service.group }}"
-    create_home: no
-
 - name: Create_DB_directory
   file:
     path: "{{ prometheus.db_dir }}"
     owner: "{{ prometheus.service.user }}"
     group: "{{ prometheus.service.group }}"
     recurse: yes
-
-- name: Create_group_prometheus-sys
-  group:
-    name: "{{ prometheus.sys-group }}"
-    state: present
-
-- name: Add_users_vagrant and_prometheus_in_group_prometheus-sys
-  user:
-    name: "{{ item }}"
-    groups: "{{ prometheus.sys-group}}"
-    append: yes
-  with_items:
-    - "{{ user.owner }}"
-    - "{{ prometheus.service.user }}"
 
 - name: Create_lib_dir
   file:

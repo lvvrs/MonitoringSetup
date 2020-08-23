@@ -11,7 +11,7 @@
 - name: UnArchiv_prometheus_distrib
   unarchive:
     src: "{{ path.tmp }}"
-    dest: "{{ prometheus_app_dir }}"
+    dest: "{{ prometheus.app_dir }}"
     remote_src: yes
 
 - name: Delete_tmp_file_archive

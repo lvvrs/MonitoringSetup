@@ -165,4 +165,21 @@
     job: "{{ prometheus.exec_dir }}"/prometheus_auto_reload
     user: "{{ user.owner }}"
 
+- name: Strat_and_Enable_Prometheus
+  systemd:
+    name: "{{ prometheus.app_name }}"
+    state: started
+    enabled: yes
+
+- name: Enable_9090_port_on_firewall
+  firewalld:
+    port: "{{ prometheus.port }}"
+    permanent: yes
+    state: enabled
+    immediate: yes
+
+- name: Check_Promethues
+  uri:
+    url: http://localhost:9090
+
 

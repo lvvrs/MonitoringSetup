@@ -16,7 +16,9 @@ prometheus:
   sys-group: 'prometheus-sys'
   lib_dir: '/lib64/prometheus'
   conf_dir: '/etc/prometheus'
-  exec_dir: '/opt/prometheus'
+  exec_dir: '/usr/local/bin/prometheus'
   unit_dir: '/etc/systemd/system'
+  app_name: 'prometheus'
+  port: '9090'
 
 

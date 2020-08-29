@@ -44,11 +44,6 @@
     extra_opts:
       - --strip-components=1
 
-- name: Delete_tmp_file_archive
-  file:
-    path: "{{ path.tmp }}/{{ prometheus_arch.distrib }}"
-    state: absent
-
 - name: Create_DB_directory
   file:
     path: "{{ prometheus.db_dir }}"
@@ -190,6 +185,11 @@
 - name: Check_Promethues
   uri:
     url: http://localhost:9090
+
+- name: Delete_tmp_file_archive
+  file:
+    path: "{{ path.tmp }}/{{ prometheus_arch.distrib }}"
+    state: absent
 
 - name: Delete_prometheus_app_dir
   file:

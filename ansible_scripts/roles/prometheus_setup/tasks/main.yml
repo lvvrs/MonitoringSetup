@@ -42,7 +42,7 @@
     dest: "{{ prometheus.app_dir }}/"
     remote_src: yes
     extra_opts:
-      - --strip_components=1
+      - --strip-components=1
 
 - name: Delete_tmp_file_archive
   file:

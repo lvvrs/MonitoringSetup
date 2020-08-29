@@ -177,7 +177,7 @@
 
 - name: Enable_9090_port_on_firewall
   firewalld:
-    port: "{{ prometheus.port }}"
+    port: "{{ prometheus.port }}/tcp"
     permanent: yes
     state: enabled
     immediate: yes

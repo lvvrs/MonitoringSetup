@@ -88,7 +88,7 @@
     mode: '775'
   with_items:
     - consoles
-    - LICENCE
+    - LICENSE
     - NOTICE
     - prometheus.yml
 

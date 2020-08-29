@@ -46,16 +46,8 @@
 
 - name: Install_base_support_packages
   yum:
-    name: "{{ item }}"
+    name: ['vim', 'tree', 'htop', 'nc', 'mc', 'wget', 'curl']
     state: present
-  with_items:
-    - vim
-    - tree
-    - htop
-    - nc
-    - mc
-    - wget
-    - curl
 
 - name: Upgrade_all_packages_and_os
   yum:

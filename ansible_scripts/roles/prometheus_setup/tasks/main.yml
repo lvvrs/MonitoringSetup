@@ -8,16 +8,16 @@
     mode: '0770'
     checksum: "{{ prometheus_arch.checksum }}"
 
-- name: Create_group_prometheus-sys
-  group:
-    name: "{{ prometheus.sys_group }}"
-    state: present
-
 - name: Create_service_user_for_prometheus
   user:
     name: "{{ prometheus.service.user }}"
     shell: "{{ prometheus.service.shell }}"
     create_home: no
+
+- name: Create_group_prometheus-sys
+  group:
+    name: "{{ prometheus.sys_group }}"
+    state: present
 
 - name: Add_users_vagrant and_prometheus_in_group_prometheus-sys
   user:

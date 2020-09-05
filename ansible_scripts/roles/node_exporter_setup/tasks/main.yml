@@ -1,0 +1,45 @@
+---
+- name: Get_node_exporter_distrib
+  get_url:
+    url: "{{ node_exporter_arch.url }}{{ node_exporter_arch.distrib }}"
+    dest: "{{ path.tmp }}"
+    owner: "{{ user.owner }}"
+    group: "{{ user.group }}"
+    mode: '0770'
+    checksum: "{{ node_exporter_arch.checksum }}"
+
+- name: Create_service_user_for_node_exporter
+  user:
+    name: "{{ node_exporter.service.user }}"
+    shell: "{{ node_exporter.service.shell }}"
+    create_home: no
+
+- name: Create_group_node_exporter-sys
+  group:
+    name: "{{ node_exporter.sys_group }}"
+    state: present
+
+- name: Add_users_vagrant and_prometheus_in_group_prometheus-sys
+  user:
+    name: "{{ item }}"
+    groups: "{{ node_exporter.sys_group}}"
+    append: yes
+  with_items:
+    - "{{ user.owner }}"
+    - "{{ node_exporter.service.user }}"
+
+- name: Create_node_exporter_app_dir
+  file:
+    path: "{{ node_exporter.app_dir }}"
+    state: directory
+    owner: "{{ user.owner }}"
+    group: "{{ node_exporter.sys_group }}"
+    mode: '775'
+
+- name: UnArchiv_node_exporter_distrib
+  unarchive:
+    src: "{{ path.tmp }}/{{ node_exporter_arch.distrib }}"
+    dest: "{{ node_exporter.app_dir }}"
+    remote_src: yes
+    extra_opts:
+      - --strip-components=1

@@ -11,3 +11,9 @@
   gather_facts: False
   roles:
     - prometheus_setup
+
+- hosts: all
+  become: yes
+  gather_facts: False
+  roles:
+    - node_exporter_setup

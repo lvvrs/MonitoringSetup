@@ -8,3 +8,15 @@ user:
 path:
   data: /data
   tmp: /tmp
+
+node_exporter_arch:
+  url: 'https://github.com/prometheus/node_exporter/releases/download/v1.0.1/'
+  distrib: 'node_exporter-1.0.1.linux-amd64.tar.gz'
+  checksum: 'sha256:3369b76cd2b0ba678b6d618deab320e565c3d93ccb5c2a0d5db51a53857768ae'
+node_exporter:
+  service:
+    user: 'node_exporter'
+    group: 'node_exporter'
+    shell: '/sbin/nologin'
+  sys_group: 'prometheus-sys'
+  app_dir: "{{ path.tmp }}/node_exporter-1.0.1.linux-amd64"

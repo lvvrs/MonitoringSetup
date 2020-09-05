@@ -1,6 +1,0 @@
----
-targets:
-  mon: monitor.test.local
-  cli: client.test.local
-  sto: storage.test.local
-  port: 9100

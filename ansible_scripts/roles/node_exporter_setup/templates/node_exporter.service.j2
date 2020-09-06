@@ -6,8 +6,8 @@ After=network-online.target
 [Service]
 USER=node_exporter
 GROUP=node_exporter
-EnvironmentFile={{ prometheus.conf_dir }}/node_exporter-options
-ExecStart={{ prometheus.exec_dir }}/node_exporter $OPTIONS
+EnvironmentFile={{ node_exporter.conf_dir }}/node_exporter-options
+ExecStart={{ node_exporter.exec_dir }}/node_exporter $OPTIONS
 ExecStop=/bin/kill -9 $MAINPID
 Restart=on-failure
 

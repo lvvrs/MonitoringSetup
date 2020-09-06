@@ -89,7 +89,7 @@
 - name: Copy_EnvironmentFile_node_exporter
   template:
     src: node_exporter-options.j2
-    dest: "{{ node_exporter.conf_dir }}/prometheus-options"
+    dest: "{{ node_exporter.conf_dir }}/node_exporter-options"
     owner: "{{ user.owner }}"
     group: "{{ node_exporter.sys_group }}"
     mode: '664'

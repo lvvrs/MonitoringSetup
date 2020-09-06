@@ -185,11 +185,11 @@
 - name: Check_Promethues
   uri:
     url: http://localhost:9090
-  register: result
+  register: result_prometheus
 
 - name: Result_checking_prometheus
   debug:
-    var: result
+    var: result_prometheus
 
 - name: Delete_tmp_file_archive
   file:

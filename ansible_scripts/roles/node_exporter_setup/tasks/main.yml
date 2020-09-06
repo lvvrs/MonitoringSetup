@@ -43,3 +43,89 @@
     remote_src: yes
     extra_opts:
       - --strip-components=1
+
+- name: Create_conf_and_exec_dir
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ user.owner }}"
+    group: "{{ node_exporter.sys_group }}"
+    mode: '775'
+  with_items:
+    - "{{ node_exporter.conf_dir }}"
+    - "{{ node_exporter.exec_dir }}"
+
+- name: Copy_files_node_exporter_to_conf_catalog
+  copy:
+    src: "{{ node_exporter.app_dir }}/{{ item }}"
+    dest: "{{ node_exporter.conf_dir }}"
+    remote_src: yes
+    owner: "{{ user.owner }}"
+    group: "{{ node_exporter.sys_group }}"
+    mode: '664'
+  with_items:
+    - LICENSE
+    - NOTICE
+
+- name: Copy_files_node_exporter_to_exec_dir
+  copy:
+    src: "{{ node_exporter.app_dir }}/{{ item }}"
+    dest: "{{ node_exporter.exec_dir }}"
+    remote_src: yes
+    owner: "{{ user.owner }}"
+    group: "{{ node_exporter.sys_group }}"
+    mode: '775'
+  with_items:
+    - node_exporter
+
+- name: Copy_SystemD_unit_file_node_exporter
+  template:
+    src: node_exporter.service.j2
+    dest: "{{ node_exporter.unit_dir }}/node_exporter.service"
+    owner: 'root'
+    group: 'root'
+    mode: '644'
+
+- name: Copy_EnvironmentFile_node_exporter
+  template:
+    src: node_exporter-options.j2
+    dest: "{{ node_exporter.conf_dir }}/prometheus-options"
+    owner: "{{ user.owner }}"
+    group: "{{ node_exporter.sys_group }}"
+    mode: '664'
+
+- name: Reload_systemd_units
+  systemd:
+    daemon_reload: yes
+
+- name: Strat_and_Enable_node_exporter
+  systemd:
+    name: "{{ node_exporter.app_name }}"
+    state: started
+    enabled: yes
+
+- name: Enable_9100_port_on_firewall
+  firewalld:
+    port: "{{ node_exporter.port }}/tcp"
+    permanent: yes
+    state: enabled
+    immediate: yes
+
+- name: Check_node_exporter
+  uri:
+    url: http://localhost:9100
+  register: result_node_exporter
+
+- name: Result_checking_node_exporter
+  debug:
+    var: result_node_exporter
+
+- name: Delete_tmp_file_archive
+  file:
+    path: "{{ path.tmp }}/{{ node_exporter_arch.distrib }}"
+    state: absent
+
+- name: Delete_node_exporter_app_dir
+  file:
+    path: "{{ node_exporter.app_dir }}"
+    state: absent

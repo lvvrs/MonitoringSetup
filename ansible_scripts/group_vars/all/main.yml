@@ -20,3 +20,8 @@ node_exporter:
     shell: '/sbin/nologin'
   sys_group: 'prometheus-sys'
   app_dir: "{{ path.tmp }}/node_exporter-1.0.1.linux-amd64"
+  conf_dir: '/etc/node_exporter'
+  exec_dir: '/usr/local/bin/node_exporter'
+  unit_dir: '/etc/systemd/system'
+  app_name: 'node_exporter'
+  port: '9100'

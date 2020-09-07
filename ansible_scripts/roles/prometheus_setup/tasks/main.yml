@@ -184,7 +184,7 @@
 
 - name: Check_Promethues
   uri:
-    url: http://localhost:9090
+    url: http://localhost:9090/-/ready
   register: result_prometheus
 
 - name: Result_checking_prometheus

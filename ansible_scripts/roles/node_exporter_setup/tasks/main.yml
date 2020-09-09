@@ -19,7 +19,7 @@
     name: "{{ node_exporter.sys_group }}"
     state: present
 
-- name: Add_users_vagrant and_prometheus_in_group_prometheus-sys
+- name: Add_users_vagrant and_node_exporter_in_group_node_exporter-sys
   user:
     name: "{{ item }}"
     groups: "{{ node_exporter.sys_group}}"

@@ -18,7 +18,7 @@ node_exporter:
     user: 'node_exporter'
     group: 'node_exporter'
     shell: '/sbin/nologin'
-  sys_group: 'prometheus-sys'
+  sys_group: 'node_exporter-sys'
   app_dir: "{{ path.tmp }}/node_exporter-1.0.1.linux-amd64"
   conf_dir: '/etc/node_exporter'
   exec_dir: '/usr/local/bin/node_exporter'

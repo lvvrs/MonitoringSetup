@@ -1,1 +1,1 @@
-OPTIONS=--config.file="{{ prometheus.conf_fir }}/prometheus.yml" --web.enable-lifecycle  --web.enable-admin-api  --web.console.templates="{{ prometheus.conf_dir }}/consoles"  --web.console.libraries="{{ prometheus.lib_dir }}/console_libraries" --storage.tsdb.path="{{ prometheus.db_dir }}"
+OPTIONS=--config.file="{{ prometheus.conf_dir }}/prometheus.yml" --web.enable-lifecycle  --web.enable-admin-api  --web.console.templates="{{ prometheus.conf_dir }}/consoles"  --web.console.libraries="{{ prometheus.lib_dir }}/console_libraries" --storage.tsdb.path="{{ prometheus.db_dir }}"

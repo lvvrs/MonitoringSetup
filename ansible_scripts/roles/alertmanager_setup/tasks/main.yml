@@ -1,0 +1,155 @@
+---
+- name: Get_alertmanager_distrib
+  get_url:
+    url: "{{ alertmanager_arch.url }}{{ alertmanager_arch.distrib }}"
+    dest: "{{ path.tmp }}"
+    owner: "{{ user.owner }}"
+    group: "{{ user.group }}"
+    mode: '0770'
+    checksum: "{{ alertmanager_arch.checksum }}"
+
+- name: Create_service_user_for_alertmanager
+  user:
+    name: "{{ alertmanager.service.user }}"
+    shell: "{{ alertmanager.service.shell }}"
+    create_home: no
+
+- name: Create_group_alertmanager-sys
+  group:
+    name: "{{ alertmanager.sys_group }}"
+    state: present
+
+- name: Add_users_vagrant and_alertmanager_in_group_alertmanager-sys
+  user:
+    name: "{{ item }}"
+    groups: "{{ alertmanager.sys_group}}"
+    append: yes
+  with_items:
+    - "{{ user.owner }}"
+    - "{{ alertmanager.service.user }}"
+
+- name: Create_alertmanager_app_dir
+  file:
+    path: "{{ alertmanager.app_dir }}"
+    state: directory
+    owner: "{{ user.owner }}"
+    group: "{{ alertmanager.sys_group }}"
+    mode: '775'
+
+- name: UnArchiv_alertmanager_distrib
+  unarchive:
+    src: "{{ path.tmp }}/{{ alertmanager_arch.distrib }}"
+    dest: "{{ alertmanager.app_dir }}"
+    remote_src: yes
+    extra_opts:
+      - --strip-components=1
+
+- name: Create_DB_directory
+  file:
+    path: "{{ alertmanager.db_dir }}"
+    owner: "{{ alertmanager.service.user }}"
+    group: "{{ alertmanager.sys_group }}"
+    recurse: yes
+
+- name: Create_conf_and_exec_dir
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ user.owner }}"
+    group: "{{ alertmanager.sys_group }}"
+    mode: '775'
+  with_items:
+    - "{{ alertmanager.conf_dir }}"
+    - "{{ alertmanager.exec_dir }}"
+
+- name: Copy_files_alertmanager_to_conf_catalog
+  copy:
+    src: "{{ alertmanager.app_dir }}/{{ item }}"
+    dest: "{{ alertmanager.conf_dir }}"
+    remote_src: yes
+    owner: "{{ user.owner }}"
+    group: "{{ alertmanager.sys_group }}"
+    mode: '775'
+  with_items:
+    - LICENSE
+    - NOTICE
+    - alertmanager.yml
+
+- name: Copy_files_alertmanager_to_exec_dir
+  copy:
+    src: "{{ alertmanager.app_dir }}/{{ item }}"
+    dest: "{{ alertmanager.exec_dir }}"
+    remote_src: yes
+    owner: "{{ user.owner }}"
+    group: "{{ alertmanager.sys_group }}"
+    mode: '775'
+  with_items:
+    - alertmanager
+    - amtool
+
+- name: Copy_SystemD_unit_file_alertmanager
+  template:
+    src: alertmanager.service.j2
+    dest: "{{ alertmanager.unit_dir }}/alertmanager.service"
+    owner: 'root'
+    group: 'root'
+    mode: '644'
+
+- name: Copy_EnvironmentFile_alertmanager
+  template:
+    src: alertmanager-options.j2
+    dest: "{{ alertmanager.conf_dir }}/alertmanager-options"
+    owner: "{{ user.owner }}"
+    group: "{{ alertmanager.sys_group }}"
+    mode: '664'
+
+- name: Reload_systemd_units
+  systemd:
+    daemon_reload: yes
+
+- name: Add_alertmanager_auto_reload_file
+  copy:
+    src: alertmanager_auto_reload
+    dest: "{{ alertmanager.exec_dir }}/alertmanager_auto_reload"
+    owner: "{{ user.owner }}"
+    group: "{{ alertmanager.sys_group }}"
+    mode: '775'
+
+- name: Create_crontap_auto_reload_alertmanager_configuration
+  cron:
+    name: "reload_alertmanager"
+    minute: '15'
+    job: "{{ alertmanager.exec_dir }}/alertmanager_auto_reload"
+    user: "{{ user.owner }}"
+
+- name: Strat_and_Enable_Alertmanager
+  systemd:
+    name: "{{ alertmanager.app_name }}"
+    state: started
+    enabled: yes
+
+- name: Enable_9093_port_on_firewall
+  firewalld:
+    port: "{{ alertmanager.port }}/tcp"
+    permanent: yes
+    state: enabled
+    immediate: yes
+
+- name: Check_Alertmanager
+  uri:
+    url: http://localhost:9090/-/ready
+  register: result_alertmanager
+
+- name: Result_checking_prometheus
+  debug:
+    var: result_alertmanager
+
+- name: Delete_tmp_file_archive
+  file:
+    path: "{{ path.tmp }}/{{ alertmanager_arch.distrib }}"
+    state: absent
+
+- name: Delete_alertmanager_app_dir
+  file:
+    path: "{{ alertmanager.app_dir }}"
+    state: absent

@@ -1,0 +1,7 @@
+#!/bin/bash
+set -euo pipefail;
+touch /tmp/alertmanagerconfig.hash
+if [[ $(find /etc/alertmanager -type f | sort | xargs md5sum | md5sum) != $(cat /tmp/alertmanagerconfig.hash) ]]; then
+  find /etc/alertmanager -type f | sort | xargs md5sum | md5sum > /tmp/alertmanagerconfig.hash;
+  curl -X POST http://localhost:9093/-/reload;
+fi

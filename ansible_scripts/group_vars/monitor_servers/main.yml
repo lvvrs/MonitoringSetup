@@ -21,6 +21,24 @@ prometheus:
   app_name: 'prometheus'
   port: '9090'
 
+alertmanager_arch:
+  url: 'https://github.com/prometheus/alertmanager/releases/download/v0.21.0/'
+  distrib: 'alertmanager-0.21.0.linux-amd64.tar.gz'
+  checksum: 'sha256:9ccd863937436fd6bfe650e22521a7f2e6a727540988eef515dde208f9aef232'
+alertmanager:
+  service:
+    user: 'alertmanager'
+    group: 'alertmanager'
+    shell: '/sbin/nologin'
+  sys_group: 'alertmanager-sys'
+  app_dir: "{{ path.tmp }}/alertmanager-0.21.0.linux-amd64"
+  db_dir: "{{ path.data }}/alertmanager_db"
+  conf_dir: '/etc/alertmanager'
+  exec_dir: '/usr/local/bin/alertmanager'
+  unit_dir: '/etc/systemd/system'
+  app_name: 'alertmanager'
+  port: '9093'
+
 targets:
   mon: monitor.test.local
   cli: client.test.local

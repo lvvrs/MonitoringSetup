@@ -1,0 +1,16 @@
+[Unit]
+Description=Alertmanager
+Documentation=https://prometheus.io/docs/alerting/latest/overview/
+After=network-online.target
+
+[Service]
+User={{ alertmanager.service.user }}
+Group={{ alertmanager.service.group }}
+Restart=on-failure
+EnvironmentFile={{ alertmanager.conf_dir }}/alertmanager-options
+ExecStart={{ alertmanager.exec_dir }}/alertmanager $OPTIONS
+ExecReload=curl -X POST localhost:9093/-/reload
+ExecStop=/bin/kill -9 $MAINPID
+
+[Install]
+WantedBy=multi-user.target

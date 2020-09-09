@@ -11,6 +11,7 @@
   gather_facts: False
   roles:
     - prometheus_setup
+    - alertmanager_setup
 
 - hosts: all
   become: yes

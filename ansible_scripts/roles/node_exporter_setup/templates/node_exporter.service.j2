@@ -4,8 +4,8 @@ Documentation=https://github.com/prometheus/node_exporter
 After=network-online.target
 
 [Service]
-USER=node_exporter
-GROUP=node_exporter
+USER={{ node_exporter.service.user }}
+GROUP={{ node_exporter.service.group }}
 EnvironmentFile={{ node_exporter.conf_dir }}/node_exporter-options
 ExecStart={{ node_exporter.exec_dir }}/node_exporter $OPTIONS
 ExecStop=/bin/kill -9 $MAINPID

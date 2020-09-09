@@ -137,7 +137,7 @@
 
 - name: Check_Alertmanager
   uri:
-    url: http://localhost:9090/-/ready
+    url: http://localhost:9093/-/ready
   register: result_alertmanager
 
 - name: Result_checking_prometheus

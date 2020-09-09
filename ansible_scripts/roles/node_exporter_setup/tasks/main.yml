@@ -114,6 +114,7 @@
 - name: Check_node_exporter
   uri:
     url: http://localhost:9100
+    return_content: yes
   register: result_node_exporter
 
 - name: Result_checking_node_exporter

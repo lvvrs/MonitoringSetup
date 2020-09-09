@@ -165,7 +165,7 @@
 - name: Create_crontap_auto_reload_promethues_configuration
   cron:
     name: "reload_prometheus"
-    minute: '10'
+    minute: '*/10'
     job: "{{ prometheus.exec_dir }}/prometheus_auto_reload"
     user: "{{ user.owner }}"
 

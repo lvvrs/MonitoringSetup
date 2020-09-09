@@ -118,7 +118,7 @@
 - name: Create_crontap_auto_reload_alertmanager_configuration
   cron:
     name: "reload_alertmanager"
-    minute: '15'
+    minute: '*/15'
     job: "{{ alertmanager.exec_dir }}/alertmanager_auto_reload"
     user: "{{ user.owner }}"
 

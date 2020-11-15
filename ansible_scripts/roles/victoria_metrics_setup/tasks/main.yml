@@ -1,0 +1,77 @@
+---
+- name: Get_victoria_metrics_cluster_distrib
+  get_url:
+    url: "{{ victoria_metrics_arch.url }}{{ victoria_metrics_arch.distrib_cluster }}"
+    dest: "{{ path.tmp }}"
+    owner: "{{ user.owner }}"
+    group: "{{ user.group }}"
+    mode: '0770'
+    checksum: "{{ victoria_metrics_arch.checksum_cluster }}"
+
+- name: Get_victoria_metrics_server_distrib
+  get_url:
+    url: "{{ victoria_metrics_arch.url }}{{ victoria_metrics_arch.distrib_server }}"
+    dest: "{{ path.tmp }}"
+    owner: "{{ user.owner }}"
+    group: "{{ user.group }}"
+    mode: '0770'
+    checksum: "{{ victoria_metrics_arch.checksum_server }}"
+
+- name: Get_victoria_metrics_utils_distrib
+  get_url:
+    url: "{{ victoria_metrics_arch.url }}{{ victoria_metrics_arch.distrib_utils }}"
+    dest: "{{ path.tmp }}"
+    owner: "{{ user.owner }}"
+    group: "{{ user.group }}"
+    mode: '0770'
+    checksum: "{{ victoria_metrics_arch.checksum_utils }}"
+
+- name: Create_service_user_for_victoria_metrics
+  user:
+    name: "{{ victoria_metrics.service.user }}"
+    shell: "{{ victoria_metrics.service.shell }}"
+    create_home: no
+
+- name: Create_group_victoria_metrics-sys
+  group:
+    name: "{{ victoria_metrics.sys_group }}"
+    state: present
+
+- name: Add_users_vagrant_and_victoria_metrics_in_group_victoria_metrics-sys
+  user:
+    name: "{{ item }}"
+    groups: "{{ victoria_metrics.sys_group}}"
+    append: yes
+  with_items:
+    - "{{ user.owner }}"
+    - "{{ victoria_metrics.service.user }}"
+
+- name: Create_victoria_metrics_app_dir
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ user.owner }}"
+    group: "{{ victoria_metrics.sys_group }}"
+    mode: '775'
+  with_items:
+    - "{{ victoria_metrics.app_cluster_dir }}"
+    - "{{ victoria_metrics.app_server_dir }}"
+    - "{{ victoria_metrics.app_utils_dir }}"
+
+- name: UnArchiv_victoria_metrics_cluster_distrib
+  unarchive:
+    src: "{{ path.tmp }}/{{ victoria_metrics_arch.distrib_cluster }}"
+    dest: "{{ victoria_metrics.app_cluster_dir }}"
+    remote_src: yes
+
+- name: UnArchiv_victoria_metrics_server_distrib
+  unarchive:
+    src: "{{ path.tmp }}/{{ victoria_metrics_arch.distrib_server }}"
+    dest: "{{ victoria_metrics.app_server_dir }}"
+    remote_src: yes
+
+- name: UnArchiv_victoria_metrics_utils_distrib
+  unarchive:
+    src: "{{ path.tmp }}/{{ victoria_metrics_arch.distrib_utils }}"
+    dest: "{{ victoria_metrics.app_utils_dir }}"
+    remote_src: yes

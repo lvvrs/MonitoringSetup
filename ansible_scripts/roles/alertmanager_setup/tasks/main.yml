@@ -19,7 +19,7 @@
     name: "{{ alertmanager.sys_group }}"
     state: present
 
-- name: Add_users_vagrant and_alertmanager_in_group_alertmanager-sys
+- name: Add_users_vagrant_and_alertmanager_in_group_alertmanager-sys
   user:
     name: "{{ item }}"
     groups: "{{ alertmanager.sys_group}}"

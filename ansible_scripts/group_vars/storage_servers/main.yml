@@ -1,3 +1,22 @@
 ---
 host_name:
   storage_name: storage
+
+victoria_metrics_arch:
+  url: 'https://github.com/VictoriaMetrics/VictoriaMetrics/releases/download/v1.46.0/'
+  distrib_cluster: 'victoria-metrics-v1.46.0-cluster.tar.gz'
+  distrib_server: 'victoria-metrics-v1.46.0.tar.gz'
+  distrib_utils: 'vmutils-v1.46.0.tar.gz'
+  checksum_cluster: 'sha256:7fa883951e62a7347234dabd9bac8b7c33fb6011b42f6e6c68ef614c32fb0135'
+  checksum_server: 'sha256:44a0baa3f3d4ec1d41bedc62a84479f84dd96453b5966e0bc2cdbf9af703af11'
+  checksum_utils: 'sha256:5e337861ee724fcaf160ceed0048ca96a9a3d5e53dc1b61d7ed12e812eba8d4c'
+victoria_metrics:
+  service:
+    user: 'victoriametrics'
+    group: 'victoriametrics'
+    shell: '/sbin/nologin'
+  sys_group: 'victoriametrics-sys'
+  app_cluster_dir: "{{ path.tmp }}/victoriametrics"
+  app_server_dir: "{{ path.tmp }}/victoriametrics-cluster"
+  app_utils_dir: "{{ path.tmp }}/victoriametrics-vmutils"
+

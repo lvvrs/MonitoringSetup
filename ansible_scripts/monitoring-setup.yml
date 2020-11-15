@@ -18,3 +18,9 @@
   gather_facts: False
   roles:
     - node_exporter_setup
+
+- hosts: storage_servers
+  become: yes
+  gather_facts: False
+  roles:
+    - victoria_metrics_setup

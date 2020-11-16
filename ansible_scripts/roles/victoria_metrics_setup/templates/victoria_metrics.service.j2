@@ -1,0 +1,15 @@
+[Unit]
+Description=VictoriaMetrics
+Documentation=https://github.com/VictoriaMetrics/VictoriaMetrics
+After=network-online.target
+
+[Service]
+User={{ victoria_metrics.service.user }}
+Group={{ victoria_metrics.service.group }}
+Restart=on-failure
+EnvironmentFile={{ victoria_metrics.unit_options_dir }}/victoriametrics-options
+ExecStart={{ victoria_metrics.exec_dir }}/victoria-metrics-prod $OPTIONS
+ExecStop=/bin/kill -9 $MAINPID
+
+[Install]
+WantedBy=multi-user.target

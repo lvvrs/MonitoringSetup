@@ -75,3 +75,104 @@
     src: "{{ path.tmp }}/{{ victoria_metrics_arch.distrib_utils }}"
     dest: "{{ victoria_metrics.app_utils_dir }}"
     remote_src: yes
+
+- name: Create_DB_directory
+  file:
+    path: "{{ victoria_metrics.db_dir }}"
+    owner: "{{ victoria_metrics.service.user }}"
+    group: "{{ victoria_metrics.sys_group }}"
+    recurse: yes
+
+- name: Create_exec_dir
+  file:
+    path: "{{ victoria_metrics.exec_dir }}"
+    state: directory
+    owner: "{{ user.owner }}"
+    group: "{{ victoria_metrics.sys_group }}"
+    mode: '775'
+
+- name: Copy_files_victoria_metrics_to_exec_dir
+  copy:
+    src: "{{ item }}"
+    dest: "{{ victoria_metrics.exec_dir }}"
+    remote_src: yes
+    owner: "{{ user.owner }}"
+    group: "{{ victoria_metrics.sys_group }}"
+    mode: '775'
+  with_items:
+    - "{{ victoria_metrics.app_cluster_dir }}/"
+    - "{{ victoria_metrics.app_server_dir }}/"
+    - "{{ victoria_metrics.app_utils_dir }}/"
+
+- name: Copy_SystemD_unit_file_victoria_metrics
+  template:
+    src: victoria_metrics.service.j2
+    dest: "{{ victoria_metrics.unit_dir }}/victoria_metrics.service"
+    owner: 'root'
+    group: 'root'
+    mode: '644'
+
+- name: Create_unit_options_dir
+  file:
+    path: "{{ victoria_metrics.unit_options_dir }}"
+    state: directory
+    owner: "{{ user.owner }}"
+    group: "{{ victoria_metrics.sys_group }}"
+    mode: '775'
+
+- name: Copy_EnvironmentFile_victoria_metrics
+  template:
+    src: victoriametrics-options.j2
+    dest: "{{ victoria_metrics.unit_options_dir }}/victoriametrics-options"
+    owner: "{{ user.owner }}"
+    group: "{{ victoria_metrics.sys_group }}"
+    mode: '664'
+
+- name: Reload_systemd_units
+  systemd:
+    daemon_reload: yes
+
+- name: Strat_and_Enable_Victoria_metrics
+  systemd:
+    name: "{{ victoria_metrics.app_name }}"
+    state: started
+    enabled: yes
+
+- name: Enable_8428_port_on_firewall
+  firewalld:
+    port: "{{ victoria_metrics.port }}/tcp"
+    permanent: yes
+    state: enabled
+    immediate: yes
+
+- name: Wait_when_Victoria_metrics_will_be_ready
+  pause:
+    seconds: 30
+
+- name: Check_Victoria_metrics
+  uri:
+    url: http://localhost:8428/ready
+    return_content: yes
+  register: result_victoria_metrics
+
+- name: Result_checking_Victoria_metrics
+  debug:
+    var: result_victoria_metrics
+
+- name: Delete_tmp_files_archives
+  file:
+    path: "{{ item }}"
+    state: absent
+  with_items:
+    - "{{ path.tmp }}/{{ victoria_metrics_arch.distrib_cluster }}"
+    - "{{ path.tmp }}/{{ victoria_metrics_arch.distrib_server }}"
+    - "{{ path.tmp }}/{{ victoria_metrics_arch.distrib_utils }}"
+
+- name: Delete_victoria_metrics_app_dirs
+  file:
+    path: "{{ item }}"
+    state: absent
+  with_items:
+    - "{{ victoria_metrics.app_cluster_dir }}"
+    - "{{ victoria_metrics.app_server_dir }}"
+    - "{{ victoria_metrics.app_utils_dir }}"

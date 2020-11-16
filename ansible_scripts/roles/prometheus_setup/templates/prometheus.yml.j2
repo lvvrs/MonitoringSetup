@@ -16,6 +16,9 @@ rule_files:
   # - "first_rules.yml"
   # - "second_rules.yml"
 
+remote_write:
+  - url: http://{{ targets.sto }}:{{ targets.rem_storage_port }}/api/v1/write
+
 # A scrape configuration containing exactly one endpoint to scrape:
 # Here it's Prometheus itself.
 scrape_configs:
@@ -34,3 +37,9 @@ scrape_configs:
         - {{ targets.mon }}:{{ targets.port }}
         - {{ targets.cli }}:{{ targets.port }}
         - {{ targets.sto }}:{{ targets.port }}
+
+  - job_name: 'victoriametrics-server'
+    metrics_path: /metrics
+    static_configs:
+      - targets:
+  	    - {{ targets.sto }}:{{ targets.rem_storage_port }}

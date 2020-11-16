@@ -141,7 +141,7 @@
     return_content: yes
   register: result_alertmanager
 
-- name: Result_checking_prometheus
+- name: Result_checking_Alertmanager
   debug:
     var: result_alertmanager
 

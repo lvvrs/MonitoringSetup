@@ -16,8 +16,8 @@ victoria_metrics:
     group: 'victoriametrics'
     shell: '/sbin/nologin'
   sys_group: 'victoriametrics-sys'
-  app_cluster_dir: "{{ path.tmp }}/victoriametrics"
-  app_server_dir: "{{ path.tmp }}/victoriametrics-cluster"
+  app_cluster_dir: "{{ path.tmp }}/victoriametrics-cluster"
+  app_server_dir: "{{ path.tmp }}/victoriametrics"
   app_utils_dir: "{{ path.tmp }}/victoriametrics-vmutils"
   db_dir: "{{ path.data }}/victoriametrics_db"
   exec_dir: '/usr/local/bin/victoriametrics'

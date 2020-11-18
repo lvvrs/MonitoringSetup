@@ -98,12 +98,17 @@
     remote_src: yes
     owner: "{{ user.owner }}"
     group: "{{ victoria_metrics.sys_group }}"
-    mode: '0775'
-    directory_mode:
+    mode: '775'
   with_items:
-    - "{{ victoria_metrics.app_cluster_dir }}/"
-    - "{{ victoria_metrics.app_server_dir }}/"
-    - "{{ victoria_metrics.app_utils_dir }}/"
+    - "{{ victoria_metrics.app_cluster_dir }}/vminsert-prod"
+    - "{{ victoria_metrics.app_cluster_dir }}/vmselect-prod"
+    - "{{ victoria_metrics.app_cluster_dir }}/vmstorage-prod"
+    - "{{ victoria_metrics.app_server_dir }}/victoria-metrics-prod"
+    - "{{ victoria_metrics.app_utils_dir }}/vmagent-prod"
+    - "{{ victoria_metrics.app_utils_dir }}/vmalert-prod"
+    - "{{ victoria_metrics.app_utils_dir }}/vmauth-prod"
+    - "{{ victoria_metrics.app_utils_dir }}/vmbackup-prod"
+    - "{{ victoria_metrics.app_utils_dir }}/vmrestore-prod"
 
 
 

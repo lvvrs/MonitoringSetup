@@ -99,6 +99,7 @@
     owner: "{{ user.owner }}"
     group: "{{ victoria_metrics.sys_group }}"
     mode: '0775'
+    directory_mode:
   with_items:
     - "{{ victoria_metrics.app_cluster_dir }}/"
     - "{{ victoria_metrics.app_server_dir }}/"

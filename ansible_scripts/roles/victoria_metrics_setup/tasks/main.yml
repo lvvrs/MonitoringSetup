@@ -110,8 +110,6 @@
     - "{{ victoria_metrics.app_utils_dir }}/vmbackup-prod"
     - "{{ victoria_metrics.app_utils_dir }}/vmrestore-prod"
 
-
-
 - name: Copy_SystemD_unit_file_victoria_metrics
   template:
     src: victoria_metrics.service.j2

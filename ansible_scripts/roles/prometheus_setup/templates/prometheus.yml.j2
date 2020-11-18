@@ -17,7 +17,7 @@ rule_files:
   # - "second_rules.yml"
 
 remote_write:
-  - url: http://{{ targets.sto }}:{{ targets.rem_storage_port }}/api/v1/write
+  - url: http://{{ targets.sto }}:{{ targets.vm_port }}/api/v1/write
 
 # A scrape configuration containing exactly one endpoint to scrape:
 # Here it's Prometheus itself.

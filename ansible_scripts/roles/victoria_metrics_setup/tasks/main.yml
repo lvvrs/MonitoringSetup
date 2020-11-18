@@ -98,11 +98,13 @@
     remote_src: yes
     owner: "{{ user.owner }}"
     group: "{{ victoria_metrics.sys_group }}"
-    mode: '775'
+    mode: '0775'
   with_items:
     - "{{ victoria_metrics.app_cluster_dir }}/"
     - "{{ victoria_metrics.app_server_dir }}/"
     - "{{ victoria_metrics.app_utils_dir }}/"
+
+
 
 - name: Copy_SystemD_unit_file_victoria_metrics
   template:

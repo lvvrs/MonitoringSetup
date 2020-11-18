@@ -76,6 +76,14 @@
     dest: "{{ victoria_metrics.app_utils_dir }}"
     remote_src: yes
 
+- name: Change_permissions_on_data_dir
+  file:
+    path: "{{ path.data }}"
+    state: touch
+    owner: "{{ user.owner }}"
+    group: "{{ victoria_metrics.sys_group }}"
+    mode: '775'
+
 - name: Create_DB_directory
   file:
     path: "{{ victoria_metrics.db_dir }}"
@@ -153,7 +161,7 @@
 
 - name: Wait_when_Victoria_metrics_will_be_ready
   pause:
-    seconds: 30
+    seconds: 45
 
 - name: Check_Victoria_metrics
   uri:

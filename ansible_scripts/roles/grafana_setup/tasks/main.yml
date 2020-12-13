@@ -1,0 +1,15 @@
+---
+- name: Add_grafana_repository
+  yum_repository:
+    name: grafana
+    baseurl: "{{ grafana.repo_base_url }}"
+    repo_gpgcheck: yes
+    enabled: yes
+    gpgcheck: yes
+    gpgkey: "{{ grafana.gpg_key_url }}"
+    sslverify: yes
+    sslcacert: "{{ grafana.sslcacert_path }}"
+
+
+
+

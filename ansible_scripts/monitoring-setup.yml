@@ -5,6 +5,7 @@
   roles:
     - pre_install
     - update_dn
+    - node_exporter_setup
 
 - hosts: monitor_servers
   become: yes
@@ -12,12 +13,7 @@
   roles:
     - prometheus_setup
     - alertmanager_setup
-
-- hosts: all
-  become: yes
-  gather_facts: False
-  roles:
-    - node_exporter_setup
+    - grafana_setup
 
 - hosts: storage_servers
   become: yes

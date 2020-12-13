@@ -9,7 +9,7 @@ alerting:
   alertmanagers:
   - static_configs:
     - targets:
-      - localhost:9093
+      - {{ targets.mon }}:{{ alertmanager.port }}
 
 # Load rules once and periodically evaluate them according to the global 'evaluation_interval'.
 rule_files:
@@ -29,7 +29,9 @@ scrape_configs:
     # scheme defaults to 'http'.
 
     static_configs:
-    - targets: ['localhost:9090']
+    - targets:
+      - {{ targets.mon }}:{{ prometheus.port }}
+
   - job_name: 'node_exporter'
     metrics_path: /metrics
     static_configs:
@@ -38,8 +40,21 @@ scrape_configs:
         - {{ targets.cli }}:{{ targets.port }}
         - {{ targets.sto }}:{{ targets.port }}
 
+  - job_name: alertmanager_metrics
+    metrics_path: /metrics
+    static_configs:
+      - targets:
+        - {{ targets.mon }}:{{ alertmanager.port }}
+
   - job_name: 'victoriametrics-server'
     metrics_path: /metrics
     static_configs:
       - targets:
         - {{ targets.sto }}:{{ targets.vm_port }}
+
+  - job_name: grafana_metrics
+    scrape_interval: 15s
+    scrape_timeout: 5s
+    static_configs:
+      - targets:
+        - {{ targets.mon }}:{{ grafana.port }}

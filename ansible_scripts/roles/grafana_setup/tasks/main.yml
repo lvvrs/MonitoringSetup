@@ -10,6 +10,18 @@
     sslverify: yes
     sslcacert: "{{ grafana.sslcacert_path }}"
 
+- name: Install_Grafana_Package
+  yum:
+    name: grafana
+    state: present
+
+- name: Change_permission_on_Grfana_configuration_directory_and_files
+  file:
+    path: "{{ grafana.configuration_path }}"
+    recurse: yes
+    mode: o+rw
+
+
 
 
 

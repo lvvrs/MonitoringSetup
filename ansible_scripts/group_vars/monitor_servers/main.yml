@@ -43,6 +43,7 @@ grafana:
   repo_base_url: 'https://packages.grafana.com/oss/rpm'
   gpg_key_url: 'https://packages.grafana.com/gpg.key'
   sslcacert_path: '/etc/pki/tls/certs/ca-bundle.crt'
+  configuration_path: '/etc/grafana'
   port: '3000'
 
 targets:

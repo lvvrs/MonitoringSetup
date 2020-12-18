@@ -175,22 +175,22 @@
     state: started
     enabled: yes
 
-- name: Enable_9090_port_on_firewall
+- name: Enable_prometheus_port_on_firewall
   firewalld:
     port: "{{ prometheus.port }}/tcp"
     permanent: yes
     state: enabled
     immediate: yes
 
-- name: Check_Promethues
+- name: Check_Promethues_Status
   uri:
     url: http://localhost:9090/-/ready
     return_content: yes
-  register: result_prometheus
+  register: result_prometheus_status
 
-- name: Result_checking_prometheus
+- name: Result_checking_Prometheus_Status
   debug:
-    var: result_prometheus
+    var: result_prometheus_status
 
 - name: Delete_tmp_file_archive
   file:

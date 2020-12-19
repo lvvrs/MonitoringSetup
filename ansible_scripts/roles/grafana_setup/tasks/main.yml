@@ -58,7 +58,7 @@
 
 - name: Change_admin_paswword
   uri:
-    url: "http://@localhost:{{ grafana.port }}/api/admin/users/1/password"
+    url: "http://localhost:{{ grafana.port }}/api/admin/users/1/password"
     url_password: 'xxxxx'
     url_username: 'admin'
     force_basic_auth: yes

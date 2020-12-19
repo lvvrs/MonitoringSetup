@@ -11,6 +11,7 @@
     sslverify: yes
     sslcacert: "{{ grafana.sslcacert_path }}"
     state: present
+  register: status_repo
 
 - name: Install_Grafana_Package
   yum:
@@ -46,6 +47,87 @@
     state: enabled
     immediate: yes
 
+- name: First_provisioning_admin_users
+  block:
+
+    - name: Change_admin_paswword
+      uri:
+        url: "http://localhost:{{ grafana.port }}/api/admin/users/1/password"
+        url_password: "{{ grafana.admin_first_password }}"
+        url_username: 'admin'
+        force_basic_auth: yes
+        method: PUT
+        headers:
+          Accept: application/json
+          Content-Type: application/json
+        body_format: json
+        body:
+          '{"password": "{{ grafana.admin_password }}"}'
+      register: status_change_admin_password
+
+    - name: Result_change_admin_password
+      debug:
+        var: status_change_admin_password
+
+    - name: Create_admin_monitoring_user
+      uri:
+        url: "http://localhost:{{ grafana.port }}/api/admin/users"
+        url_password: "{{ grafana.admin_password }}"
+        url_username: 'admin'
+        force_basic_auth: yes
+        method: POST
+        headers:
+          Accept: application/json
+          Content-Type: application/json
+        body_format: json
+        body:
+          '{"name": "{{ grafana.administrator }}", "email": "{{ grafana.administrator }}", "login": "{{ grafana.administrator }}", "password": "{{ grafana.admin_password }}"}'
+      register: status_crate_admin_monitoring_user
+
+    - name: Result_crate_admin_monitoring_user
+      debug:
+        var: status_crate_admin_monitoring_user
+
+    - name: add_admin_permissions_for_admin_monitoring
+      uri:
+        url: "http://localhost:{{ grafana.port }}/api/admin/users/2/permissions"
+        url_password: "{{ grafana.admin_password }}"
+        url_username: 'admin'
+        force_basic_auth: yes
+        method: PUT
+        headers:
+          Accept: application/json
+          Content-Type: application/json
+        body_format: json
+        body:
+          '{"isGrafanaAdmin": true}'
+      register: status_add_admin_permissions
+
+    - name: Result_add_admin_permissions
+      debug:
+        var: status_add_admin_permissions
+
+    - name: Add_admin_permissions_for_admin_monitoring_on_org
+      uri:
+        url: "http://localhost:{{ grafana.port }}/api/org/users/2"
+        url_password: "{{ grafana.admin_password }}"
+        url_username: 'admin'
+        force_basic_auth: yes
+        method: PATCH
+        headers:
+          Accept: application/json
+          Content-Type: application/json
+        body_format: json
+        body:
+          '{"role": "Admin"}'
+      register: status_add_admin_role_on_org
+
+    - name: Result_add_admin_role_on_org
+      debug:
+        var: status_add_admin_role_on_org
+
+  when: status_repo is changed
+
 - name: Check_Grafana_Status
   uri:
     url: "http://localhost:{{ grafana.port }}/api/health"
@@ -55,81 +137,3 @@
 - name: Result_checking_Grafana_Status
   debug:
     var: result_grafana_status
-
-- name: Change_admin_paswword
-  uri:
-    url: "http://localhost:{{ grafana.port }}/api/admin/users/1/password"
-    url_password: "{{ grafana.admin_first_password }}"
-    url_username: 'admin'
-    force_basic_auth: yes
-    method: PUT
-    headers:
-      Accept: application/json
-      Content-Type: application/json
-    body_format: json
-    body:
-      '{"password": "{{ grafana.admin_password }}"}'
-  register: status_change_admin_password
-
-- name: Result_change_admin_password
-  debug:
-    var: status_change_admin_password
-
-- name: Create_admin_monitoring_user
-  uri:
-    url: "http://localhost:{{ grafana.port }}/api/admin/users"
-    url_password: "{{ grafana.admin_password }}"
-    url_username: 'admin'
-    force_basic_auth: yes
-    method: POST
-    headers:
-      Accept: application/json
-      Content-Type: application/json
-    body_format: json
-    body:
-      '{"name": "{{ grafana.administrator }}", "email": "{{ grafana.administrator }}", "login": "{{ grafana.administrator }}", "password": "{{ grafana.admin_password }}"}'
-  register: status_crate_admin_monitoring_user
-
-- name: Result_crate_admin_monitoring_user
-  debug:
-    var: status_crate_admin_monitoring_user
-
-- name: add_admin_permissions_for_admin_monitoring
-  uri:
-    url: "http://localhost:{{ grafana.port }}/api/admin/users/2/permissions"
-    url_password: "{{ grafana.admin_password }}"
-    url_username: 'admin'
-    force_basic_auth: yes
-    method: PUT
-    headers:
-      Accept: application/json
-      Content-Type: application/json
-    body_format: json
-    body:
-      '{"isGrafanaAdmin": true}'
-  register: status_add_admin_permissions
-
-- name: Result_add_admin_permissions
-  debug:
-    var: status_add_admin_permissions
-
-- name: Add_admin_permissions_for_admin_monitoring_on_org
-  uri:
-    url: "http://localhost:{{ grafana.port }}/api/org/users/2"
-    url_password: "{{ grafana.admin_password }}"
-    url_username: 'admin'
-    force_basic_auth: yes
-    method: PATCH
-    headers:
-      Accept: application/json
-      Content-Type: application/json
-    body_format: json
-    body:
-      '{"role": "Admin"}'
-  register: status_add_admin_role_on_org
-
-- name: Result_add_admin_role_on_org
-  debug:
-    var: status_add_admin_role_on_org
-
-

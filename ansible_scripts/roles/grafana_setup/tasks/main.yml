@@ -56,6 +56,16 @@
   debug:
     var: result_grafana_status
 
+- name: Change_password_admin
+  grafana_user:
+    url: 'http://localhost:3000'
+    url_username: 'admin'
+    url_password: 'admin'
+    name: 'admin'
+    login: 'admin'
+    password: 'Gtcyz2003'
+    state: present
+
 - name: Change_admin_paswword
   uri:
     url: "http://admin:admin@localhost:{{ grafana.port }}/api/admin/users/1/password"

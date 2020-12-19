@@ -26,7 +26,7 @@
 - name: Apply_Grafana_config
   template:
     src: grafana.ini.j2
-    dest: "{{ grafana.conf_dir }}/grafana.ini"
+    dest: "{{ grafana.configuration_path }}/grafana.ini"
     mode: o+rw
 
 - name: Run_and_enable_Grafana

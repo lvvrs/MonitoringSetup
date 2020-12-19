@@ -29,6 +29,10 @@
     dest: "{{ grafana.configuration_path }}/grafana.ini"
     mode: o+rw
 
+- name: Reload_systemd_units
+  systemd:
+    daemon_reload: yes
+
 - name: Run_and_enable_Grafana
   systemd:
     name: "{{ grafana.app_name }}"

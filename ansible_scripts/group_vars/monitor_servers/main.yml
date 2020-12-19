@@ -45,7 +45,7 @@ grafana:
   sslcacert_path: '/etc/pki/tls/certs/ca-bundle.crt'
   configuration_path: '/etc/grafana'
   port: '3000'
-  app_name: 'grafana'
+  app_name: 'grafana-server'
   admin_password: 'Gtcyz2003'
   administrator: 'admin_monitoring'
 

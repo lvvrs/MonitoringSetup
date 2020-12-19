@@ -48,6 +48,7 @@ grafana:
   app_name: 'grafana-server'
   admin_password: 'Gtcyz2003'
   administrator: 'admin_monitoring'
+  admin_first_password: 'Password123'
 
 targets:
   mon: monitor.test.local

@@ -77,7 +77,10 @@
 
 - name: Create_admin_monitoring_user
   uri:
-    url: "http://admin:{{ grafana.admin_password }}@localhost:{{ grafana.port }}/api/admin/users"
+    url: "http://localhost:{{ grafana.port }}/api/admin/users"
+    url_password: "{{ grafana.admin_password }}"
+    url_username: 'admin'
+    force_basic_auth: yes
     method: POST
     headers:
       Accept: application/json
@@ -93,7 +96,10 @@
 
 - name: add_admin_permissions_for_admin_monitoring
   uri:
-    url: "http://admin:{{ grafana.admin_password }}@localhost:{{ grafana.port }}/api/admin/users/2/permissions"
+    url: "http://localhost:{{ grafana.port }}/api/admin/users/2/permissions"
+    url_password: "{{ grafana.admin_password }}"
+    url_username: 'admin'
+    force_basic_auth: yes
     method: PUT
     headers:
       Accept: application/json
@@ -109,7 +115,10 @@
 
 - name: Add_admin_permissions_for_admin_monitoring_on_org
   uri:
-    url: "http://admin:{ grafana.admin_password }}@localhost:{{ grafana.port }}/api/org/users/2"
+    url: "http://localhost:{{ grafana.port }}/api/org/users/2"
+    url_password: "{{ grafana.admin_password }}"
+    url_username: 'admin'
+    force_basic_auth: yes
     method: PATCH
     headers:
       Accept: application/json

@@ -54,7 +54,7 @@
 
 - name: Result_checking_Grafana_Status
   debug:
-    var: result_grfana_status
+    var: result_grafana_status
 
 - name: Change_admin_paswword
   uri:
@@ -65,7 +65,7 @@
       Content-Type: application/json
     body_format: json
     body:
-      - '{"password": "{{ grafana.admin_password }}"}'
+      "--data '{"password": "{{ grafana.admin_password }}"}'"
   register: status_change_admin_password
 
 - name: Result_change_admin_password

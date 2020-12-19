@@ -65,7 +65,7 @@
       Content-Type: application/json
     body_format: json
     body:
-      "--data '{"password": "{{ grafana.admin_password }}"}'"
+      '{"password": "{{ grafana.admin_password }}"}'
   register: status_change_admin_password
 
 - name: Result_change_admin_password
@@ -81,7 +81,7 @@
       Content-Type: application/json
     body_format: json
     body:
-      - '{"name": "{{ grafana.administrator }}", "email": "{{ grafana.administrator }}", "login": "{{ grafana.administrator }}", "password": "{{ grafana.admin_password }}"}'
+      '{"name": "{{ grafana.administrator }}", "email": "{{ grafana.administrator }}", "login": "{{ grafana.administrator }}", "password": "{{ grafana.admin_password }}"}'
   register: status_crate_admin_monitoring_user
 
 - name: Result_crate_admin_monitoring_user
@@ -97,7 +97,7 @@
       Content-Type: application/json
     body_format: json
     body:
-      - '{"isGrafanaAdmin": true}'
+      '{"isGrafanaAdmin": true}'
   register: status_add_admin_permissions
 
 - name: Result_add_admin_permissions
@@ -113,7 +113,7 @@
       Content-Type: application/json
     body_format: json
     body:
-      - '{"role": "Admin"}'
+      '{"role": "Admin"}'
   register: status_add_admin_role_on_org
 
 - name: Result_add_admin_role_on_org

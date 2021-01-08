@@ -13,7 +13,7 @@ pipeline {
     }
     parameters {
         booleanParam(name: 'UpdateJfile', defaultValue: true, description: 'Update settings for deployment when Jenkinsfile was changed')
-        choice(name: 'Task', choices: ['Install'], description: 'Select what you need do')
+        choice(name: 'Task', choices: ['Install', 'Check'], description: 'Select what you need do')
     }
     stages {
         stage('CheckOut SCM') {
@@ -26,7 +26,7 @@ pipeline {
                 sh 'ansible --version'
             }
         }
-        stage('Run Ansible Playbook') {
+        stage('Run Setup Monitoring Ansible Playbook') {
             when {
                 expression {
                     params.UpdateJfile ==~ 'false' && params.Task == 'Install'
@@ -40,6 +40,23 @@ pipeline {
                                 inventory: 'hosts',
                                 colorized: true)
 
+                    }
+                }
+            }
+        }
+        stage('Run Check Monitoring Ansible Playbook') {
+            when {
+                expression {
+                    params.UpdateJfile ==~ 'false' && params.Task == 'Check'
+                }
+            }
+            steps {
+                ansiColor('xterm') {
+                    dir("ansible_scripts") {
+                        ansiblePlaybook(
+                                playbook: 'monitoring-check.yml',
+                                inventory: 'hosts',
+                                colorized: true)
                     }
                 }
             }

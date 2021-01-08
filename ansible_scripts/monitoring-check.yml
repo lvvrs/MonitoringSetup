@@ -1,0 +1,17 @@
+---
+- hosts: all
+  gather_facts: False
+  tasks:
+
+  - name: Check_status_PO_with_url
+    block:
+
+      - name: Check_url
+        include_role:
+          name: check-url
+
+    rescue:
+
+      - name: Check_Service_and_Run_Service_when_Service_is_off
+        include_role:
+          name: check-service

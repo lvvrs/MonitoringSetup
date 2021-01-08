@@ -10,3 +10,8 @@ storage ansible_host=192.168.1.132 server_role=storage_server
 [apps_servers:children]
 monitor_servers
 storage_servers
+
+[observed_servers:children]
+monitor_servers
+client_servers
+storage_servers

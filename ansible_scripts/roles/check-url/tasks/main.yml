@@ -1,0 +1,85 @@
+---
+- name: Check_ovserved_servers_urls
+  block:
+    - name: Print_check_name
+      debug:
+        var: "Check status node_exporter!"
+
+    - name: Check_node_exporter
+      uri:
+        url: "http://localhost:{{ node_exporter.port }}"
+        return_content: yes
+      register: result_node_exporter_status
+
+    - name: Print_result_check_node_exporter
+      debug:
+        var: result_node_exporter_status
+
+  when: inventory_hostname in groups['observed_servers']|default([])
+
+- name: Check_monitor_servers_urls
+  block:
+
+    - name: Print_check_Prometheus
+      debug:
+        var: "Check status Prometheus!"
+
+    - name: Check_Prometheus
+      uri:
+        url: "http://localhost:{{ prometheus.port }}/-/ready"
+        return_content: yes
+      register: result_prometheus_status
+
+    - name: Print_result_check_Prometheus
+      debug:
+        var: result_prometheus_status
+
+    - name: Print_check_Grafana
+      debug:
+        var: "Check status Grafana!"
+
+    - name: Check_Grafana
+      uri:
+        url: "http://localhost:{{ grafana.port }}/api/health"
+        return_content: yes
+      register: result_grafana_status
+
+    - name: Print_result_check_Grafana
+      debug:
+        var: result_grafana_status
+
+    - name: Print_check_Alertmanager
+      debug:
+        var: "Check status Alertmanager!"
+
+    - name: Check_Alertmanager
+      uri:
+        url: "http://localhost:{{ alertmanager.port }}/-/ready"
+        return_content: yes
+      register: result_alertmanager_status
+
+    - name: Print_result_check_Alertmanager
+      debug:
+        var: result_alertmanager_status
+
+  when: inventory_hostname in groups['monitor_servers']|default([])
+
+- name: Check_storage_servers_urls
+  block:
+
+    - name: Print_check_Victoria_metrics
+      debug:
+        var: "Check status Victoria metrics!"
+
+    - name: Check_Victoria_metrics
+      uri:
+        url: "http://localhost:{{ victoria_metrics.port }}/ready"
+        return_content: yes
+      register: result_victoria_metrics_status
+
+    - name: Print_result_check_Victoria_metrics
+      debug:
+        var: result_victoria_metrics_status
+
+  when: inventory_hostname in groups['storage_servers']|default([])
+

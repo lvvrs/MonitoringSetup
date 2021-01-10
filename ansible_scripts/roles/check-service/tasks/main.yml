@@ -3,6 +3,10 @@
   service_facts:
   register: service_state
 
+- name: Print service_staus
+  debug:
+    var: service_state
+
 - name: Print_status_node_exporter.service
   debug:
     var: service_state.ansible_facts.services["node_exporter.service"].state
@@ -68,3 +72,10 @@
 
   when: inventory_hostname in groups['storage_servers']|default([])
 
+- name: Check service_status
+  service_facts:
+  register: service_state_new
+
+- name: Print service_staus
+  debug:
+    var: service_state_new

@@ -3,10 +3,6 @@
   service_facts:
   register: service_state
 
-- name: Print service_staus
-  debug:
-    var: service_state
-
 - name: Print_status_node_exporter.service
   debug:
     var: service_state.ansible_facts.services["node_exporter.service"].state
@@ -18,6 +14,14 @@
     enabled: yes
   become: yes
   when: service_state.ansible_facts.services["node_exporter.service"].state == 'stopped'
+
+- name: Check_run_node_exporter.service
+  service_facts:
+  register: status_run_node_exporter
+
+- name: Print status run node_spoerter.service
+  debug:
+    var: status_run_node_exporter.ansible_facts.services["node_exporter.service"].state
 
 - name: Check_services_on_hosts_moniotor
   block:
@@ -72,11 +76,3 @@
       when: service_state.ansible_facts.services["victoria_metrics.service"].state == stopped
 
   when: inventory_hostname in groups['storage_servers']|default([])
-
-- name: Check service_status
-  service_facts:
-  register: service_state_new
-
-- name: Print service_staus
-  debug:
-    var: service_state_new

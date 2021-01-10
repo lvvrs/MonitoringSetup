@@ -22,7 +22,7 @@
 
     - name: Print_check_Prometheus
       debug:
-        var: "Check status Prometheus!"
+        msg: "Check status Prometheus!"
 
     - name: Check_Prometheus
       uri:
@@ -36,7 +36,7 @@
 
     - name: Print_check_Grafana
       debug:
-        var: "Check status Grafana!"
+        msg: "Check status Grafana!"
 
     - name: Check_Grafana
       uri:
@@ -50,7 +50,7 @@
 
     - name: Print_check_Alertmanager
       debug:
-        var: "Check status Alertmanager!"
+        msg: "Check status Alertmanager!"
 
     - name: Check_Alertmanager
       uri:
@@ -69,7 +69,7 @@
 
     - name: Print_check_Victoria_metrics
       debug:
-        var: "Check status Victoria metrics!"
+        msg: "Check status Victoria metrics!"
 
     - name: Check_Victoria_metrics
       uri:

@@ -19,7 +19,7 @@
   service_facts:
   register: status_run_node_exporter
 
-- name: Print status run node_spoerter.service
+- name: Print status run node_exporter.service
   debug:
     var: status_run_node_exporter.ansible_facts.services["node_exporter.service"].state
 

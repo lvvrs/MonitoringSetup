@@ -35,7 +35,16 @@
         name: "{{ prometheus.app_name }}"
         state: started
         enabled: yes
-      when: service_state.ansible_facts.services["prometheus.service"].state == stopped
+      become: yes
+      when: service_state.ansible_facts.services["prometheus.service"].state == 'stopped'
+
+    - name: Check_run_prometheus.service
+      service_facts:
+      register: status_run_prometheus_service
+
+    - name: Print status run prometheus.service
+      debug:
+        var: status_run_prometheus_service.ansible_facts.services["prometheus.service"].state
 
     - name: Print_status_grafana-server.service
       debug:
@@ -46,7 +55,16 @@
         name: "{{ grafana.app_name }}"
         state: started
         enabled: yes
-      when: service_state.ansible_facts.services["grafana-server.service"].state == stopped
+      become: yes
+      when: service_state.ansible_facts.services["grafana-server.service"].state == 'stopped'
+
+    - name: Check_run_grafana-server.service
+      service_facts:
+      register: status_run_grafana_service
+
+    - name: Print status run grafana-server.service
+      debug:
+        var: status_run_grafana_service.ansible_facts.services["grafana-server.service"].state
 
     - name: Print_status_alertmanager.service
       debug:
@@ -57,7 +75,16 @@
         name: "{{ alertmanager.app_name }}"
         state: started
         enabled: yes
-      when: service_state.ansible_facts.services["alertmanager.service"].state == stopped
+      become: yes
+      when: service_state.ansible_facts.services["alertmanager.service"].state == 'stopped'
+
+    - name: Check_run_alertmanager.service
+      service_facts:
+      register: status_run_alertmanager_service
+
+    - name: Print status run alertmanager.service
+      debug:
+        var: status_run_alertmanager_service.ansible_facts.services["alertmanager.service"].state
 
   when: inventory_hostname in groups['monitor_servers']|default([])
 
@@ -73,6 +100,19 @@
         name: "{{ victoria_metrics.app_name }}"
         state: started
         enabled: yes
-      when: service_state.ansible_facts.services["victoria_metrics.service"].state == stopped
+      become: yes
+      when: service_state.ansible_facts.services["victoria_metrics.service"].state == 'stopped'
+
+    - name: Wait_when_Victoria_metrics_will_be_ready
+      pause:
+        seconds: 45
+
+    - name: Check_run_victoria_metrics.service
+      service_facts:
+      register: status_run_victoria_metrics_service
+
+    - name: Print status run victoria_metrics.service
+      debug:
+        var: status_run_victoria_metrics_service.ansible_facts.services["victoria_metrics.service"].state
 
   when: inventory_hostname in groups['storage_servers']|default([])

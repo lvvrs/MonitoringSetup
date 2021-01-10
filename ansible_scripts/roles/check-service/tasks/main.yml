@@ -1,0 +1,70 @@
+---
+- name: Check service_status
+  service_facts:
+  register: service_state
+
+- name: Print_status_node_exporter.service
+  debug:
+    var: service_state.ansible_facts.services["node_exporter.service"].state
+
+- name: Run_node_exporter.service_when_service_is_stopped
+  systemd:
+    name: "{{ node_exporter.app_name }}"
+    state: started
+    enabled: yes
+  when: service_state.ansible_facts.services["node_exporter.service"].state == stopped
+
+- name: Check_services_on_hosts_moniotor
+  block:
+
+    - name: Print_status_prometheus.service
+      debug:
+        var: service_state.ansible_facts.services["prometheus.service"].state
+
+    - name: Run_prometheus.service_when_service_is_stopped
+      systemd:
+        name: "{{ prometheus.app_name }}"
+        state: started
+        enabled: yes
+      when: service_state.ansible_facts.services["prometheus.service"].state == stopped
+
+    - name: Print_status_grafana-server.service
+      debug:
+        var: service_state.ansible_facts.services["grafana-server.service"].state
+
+    - name: Run_grafana-server.service_when_service_is_stopped
+      systemd:
+        name: "{{ grafana.app_name }}"
+        state: started
+        enabled: yes
+      when: service_state.ansible_facts.services["grafana-server.service"].state == stopped
+
+    - name: Print_status_alertmanager.service
+      debug:
+        var: service_state.ansible_facts.services["alertmanager.service"].state
+
+    - name: Run_alertmanager.service_when_service_is_stopped
+      systemd:
+        name: "{{ alertmanager.app_name }}"
+        state: started
+        enabled: yes
+      when: service_state.ansible_facts.services["alertmanager.service"].state == stopped
+
+  when: inventory_hostname in groups['monitor_servers']|default([])
+
+- name: Check_services_on_hosts_storage
+  block:
+
+    - name: Print_status_victoria_metrics.service
+      debug:
+        var: service_state.ansible_facts.services["victoria_metrics.service"].state
+
+    - name: Run_victoria_metrics.service_when_service_is_stopped
+      systemd:
+        name: "{{ victoria_metrics.app_name }}"
+        state: started
+        enabled: yes
+      when: service_state.ansible_facts.services["victoria_metrics.service"].state == stopped
+
+  when: inventory_hostname in groups['storage_servers']|default([])
+

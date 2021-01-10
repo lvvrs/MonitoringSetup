@@ -3,7 +3,7 @@
   block:
     - name: Print_check_name
       debug:
-        var: "Check status node_exporter!"
+        msg: "Check status node_exporter!"
 
     - name: Check_node_exporter
       uri:

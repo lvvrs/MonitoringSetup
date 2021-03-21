@@ -49,6 +49,10 @@ grafana:
   admin_password: 'Gtcyz2003'
   administrator: 'admin_monitoring'
   admin_first_password: 'Password123'
+  provisioning:
+    datasource_path: '/etc/grafana/provisioning/datasources'
+    dashboards_path: '/etc/grafana/provisioning/dashboards'
+    json_file_path: '/etc/grafana/provisioning/data'
 
 targets:
   mon: monitor.test.local

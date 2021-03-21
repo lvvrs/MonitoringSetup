@@ -1,0 +1,12 @@
+apiVersion: 1
+
+providers:
+  - name: 'Dashboards Provider'
+    orgId: 1
+    type: file
+    disableDeletion: false
+    updateIntervalSeconds: 30
+    allowUiUpdates: true
+    options:
+      path: {{ grafana.provisioning.json_file_path }}
+      folderFromFileStructure: false

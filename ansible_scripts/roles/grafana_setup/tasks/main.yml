@@ -30,6 +30,40 @@
     dest: "{{ grafana.configuration_path }}/grafana.ini"
     mode: o+rw
 
+- name: Provisioning_Datasources
+  template:
+    src: datasource.yml.j2
+    dest: "{{ grafana.provisioning.datasource_path }}/datasource.yml"
+    mode: u=rw,g=rw,o=r
+
+- name: Provisioning_Dashboards
+  template:
+    src: dashboard.yml.j2
+    dest: "{{ grafana.provisioning.dashboards_path }}/dashboard.yml"
+    mode: u=rw,g=rw,o=r
+
+- name: Create_data_folder_for_dashboards
+  file:
+    path: "{{ grafana.provisioning.json_file_path }}"
+    state: directory
+    user: root
+    group: grafana
+    mode: u=rwx,g=rx,o=rx
+
+- name: Copy_json_files_dashbords
+  copy:
+    src: "{{ item }}"
+    dest: "{{ grafana.provisioning.json_file_path }}"
+    owner: root
+    user: grafana
+    mode: u=rwx,g=rx,o=rx
+  loop:
+    - alertmanager.json
+    - grafana.json
+    - node-exporter-full.json
+    - prometheus.json
+    - victoriametrics.json
+
 - name: Reload_systemd_units
   systemd:
     daemon_reload: yes

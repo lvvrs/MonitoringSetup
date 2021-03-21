@@ -1,0 +1,19 @@
+apiVersion: 1
+
+datasources:
+  - name: Prometheus
+    type: prometheus
+    access: proxy
+    orgId: 1
+    url: "http://{{ targets.mon }}:{{ prometheus.port }}/"
+    isDefault: true
+    version: 1
+    editable: true
+  - name: VictoriaMetrics
+    type: prometheus
+    access: proxy
+    orgId: 1
+    url: "http://{{ targets.sto }}:{{ targets.vm_port }}/"
+    isDefault: false
+    version: 1
+    editable: true

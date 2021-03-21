@@ -55,7 +55,7 @@
     src: "{{ item }}"
     dest: "{{ grafana.provisioning.json_file_path }}"
     owner: root
-    user: grafana
+    group: grafana
     mode: u=rwx,g=rx,o=rx
   loop:
     - alertmanager.json

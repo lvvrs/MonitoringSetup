@@ -46,7 +46,7 @@
   file:
     path: "{{ grafana.provisioning.json_file_path }}"
     state: directory
-    user: root
+    owner: root
     group: grafana
     mode: u=rwx,g=rx,o=rx
 

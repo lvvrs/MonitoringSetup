@@ -28,18 +28,24 @@
   template:
     src: grafana.ini.j2
     dest: "{{ grafana.configuration_path }}/grafana.ini"
-    mode: o+rw
+    owner: root
+    group: grafana
+    mode: u=rw,g=rw,o=r
 
 - name: Provisioning_Datasources
   template:
     src: datasource.yml.j2
     dest: "{{ grafana.provisioning.datasource_path }}/datasource.yml"
+    owner: root
+    group: grafana
     mode: u=rw,g=rw,o=r
 
 - name: Provisioning_Dashboards
   template:
     src: dashboard.yml.j2
     dest: "{{ grafana.provisioning.dashboards_path }}/dashboard.yml"
+    owner: root
+    group: grafana
     mode: u=rw,g=rw,o=r
 
 - name: Create_data_folder_for_dashboards

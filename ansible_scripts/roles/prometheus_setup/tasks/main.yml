@@ -154,6 +154,15 @@
     mode: '664'
     validate: "{{ prometheus.exec_dir }}/promtool check config {{ prometheus.conf_dir }}/prometheus.yml %s"
 
+- name: Copy alerts rules file
+  copy:
+    src: alerts_rules.yml
+    dest: "{{ prometheus.conf_dir }}/alerts_rules.yml"
+    owner: "{{ user.owner }}"
+    group: "{{ prometheus.sys_group }}"
+    mode: '644'
+    validate: "{{ prometheus.exec_dir }}/promtool check config {{ prometheus.conf_dir }}/prometheus.yml %s"
+
 - name: Add_prometheus_auto_reload_file
   copy:
     src: prometheus_auto_reload

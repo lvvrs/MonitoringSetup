@@ -145,15 +145,6 @@
     group: "{{ prometheus.sys_group }}"
     mode: '775'
 
-- name: Apply_prometheus_config
-  template:
-    src: prometheus.yml.j2
-    dest: "{{ prometheus.conf_dir }}/prometheus.yml"
-    owner: "{{ user.owner }}"
-    group: "{{ prometheus.sys_group }}"
-    mode: '664'
-    validate: "{{ prometheus.exec_dir }}/promtool check config {{ prometheus.conf_dir }}/prometheus.yml %s"
-
 - name: Copy alerts rules file
   copy:
     src: alerts_rules.yml
@@ -161,6 +152,14 @@
     owner: "{{ user.owner }}"
     group: "{{ prometheus.sys_group }}"
     mode: '644'
+
+- name: Apply_prometheus_config
+  template:
+    src: prometheus.yml.j2
+    dest: "{{ prometheus.conf_dir }}/prometheus.yml"
+    owner: "{{ user.owner }}"
+    group: "{{ prometheus.sys_group }}"
+    mode: '664'
     validate: "{{ prometheus.exec_dir }}/promtool check config {{ prometheus.conf_dir }}/prometheus.yml %s"
 
 - name: Add_prometheus_auto_reload_file

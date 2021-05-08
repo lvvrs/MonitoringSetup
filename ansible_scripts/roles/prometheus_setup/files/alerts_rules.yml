@@ -29,7 +29,7 @@ groups:
           description: "Instance Node_exporter is unrechable for monitoring"
 
       - alert: VictoriaMetricsIsDown
-        expr: up{job="victoria_metrics"} == 0
+        expr: up{job="victoria-metrics"} == 0
         for: 30s
         labels:
           severity: critical

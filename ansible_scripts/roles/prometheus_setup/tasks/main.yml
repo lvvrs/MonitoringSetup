@@ -27,6 +27,7 @@
   with_items:
     - "{{ user.owner }}"
     - "{{ prometheus.service.user }}"
+  register: result_node_exporter
 
 - name: Create_prometheus_app_dir
   file:
@@ -43,6 +44,7 @@
     remote_src: yes
     extra_opts:
       - --strip-components=1
+  register: result_node_exporter
 
 - name: Create_DB_directory
   file:
@@ -72,6 +74,7 @@
     src: "{{ prometheus.app_dir }}/console_libraries"
     dest: "{{ prometheus.lib_dir }}/"
     remote_src: yes
+  register: result_node_exporter
 
 - name: Copy_files_prometheus_to_conf_catalog
   copy:
@@ -86,6 +89,7 @@
     - LICENSE
     - NOTICE
     - prometheus.yml
+  register: result_node_exporter
 
 - name: Copy_files_prometheus_to_exec_dir
   copy:
@@ -99,6 +103,7 @@
     - prometheus
     - promtool
     - tsdb
+  register: result_node_exporter
 
 - name: Copy_SystemD_unit_file_promethus
   template:
@@ -136,6 +141,7 @@
     - consoles/node-overview.html
     - consoles/prometheus.html
     - consoles/prometheus-overview.html
+  register: result_node_exporter
 
 - name: Change_permissions_on_data_prometheus_dir
   file:
@@ -144,6 +150,7 @@
     owner: "{{ user.owner }}"
     group: "{{ prometheus.sys_group }}"
     mode: '775'
+  register: result_node_exporter
 
 - name: Copy alerts rules file
   copy:

@@ -121,6 +121,7 @@
     - "{{ victoria_metrics.app_utils_dir }}/vmauth-prod"
     - "{{ victoria_metrics.app_utils_dir }}/vmbackup-prod"
     - "{{ victoria_metrics.app_utils_dir }}/vmrestore-prod"
+  ignore_errors: "{{ ansible_check_mode }}"
 
 - name: Copy_SystemD_unit_file_victoria_metrics
   template:

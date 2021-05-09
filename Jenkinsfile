@@ -14,7 +14,7 @@ pipeline {
     parameters {
         booleanParam(name: 'UpdateJfile', defaultValue: false, description: 'Update settings for deployment when Jenkinsfile was changed')
         booleanParam(name: 'DryRun', defaultValue: true, description: 'Run ansible playbook for install monitoring with --check agrgument')
-        choice(name: 'Task', choices: ['Install', 'Check'], description: 'Select what you need do')
+        choice(name: 'Task', choices: ['Install', 'Check', 'UpdatePrometheusConfiguration'], description: 'Select what you need do')
     }
     stages {
         stage('CheckOut SCM') {
@@ -56,6 +56,23 @@ pipeline {
                     dir("ansible_scripts") {
                         ansiblePlaybook(
                                 playbook: 'monitoring-check.yml',
+                                inventory: 'hosts',
+                                colorized: true)
+                    }
+                }
+            }
+        }
+        stage('Run Update Prometheus Configuration Ansible Playbook') {
+            when {
+                expression {
+                    params.UpdateJfile ==~ 'false' && params.Task == 'UpdatePrometheusConfiguration' && params.DryRun ==~ 'false'
+                }
+            }
+            steps {
+                ansiColor('xterm') {
+                    dir("ansible_scripts") {
+                        ansiblePlaybook(
+                                playbook: 'prometheus-config-update.yml',
                                 inventory: 'hosts',
                                 colorized: true)
                     }

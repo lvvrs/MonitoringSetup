@@ -27,6 +27,7 @@
   with_items:
     - "{{ user.owner }}"
     - "{{ alertmanager.service.user }}"
+  ignore_errors: "{{ ansible_check_mode }}"
 
 - name: Create_alertmanager_app_dir
   file:
@@ -43,6 +44,7 @@
     remote_src: yes
     extra_opts:
       - --strip-components=1
+  ignore_errors: "{{ ansible_check_mode }}"
 
 - name: Create_DB_directory
   file:

@@ -76,6 +76,7 @@
     - LICENSE
     - NOTICE
     - alertmanager.yml
+  ignore_errors: "{{ ansible_check_mode }}"
 
 - name: Copy_files_alertmanager_to_exec_dir
   copy:
@@ -88,6 +89,7 @@
   with_items:
     - alertmanager
     - amtool
+  ignore_errors: "{{ ansible_check_mode }}"
 
 - name: Copy_SystemD_unit_file_alertmanager
   template:

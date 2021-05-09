@@ -27,7 +27,7 @@
   with_items:
     - "{{ user.owner }}"
     - "{{ prometheus.service.user }}"
-  register: result_node_exporter
+  ignore_errors: "{{ ansible_check_mode }}"
 
 - name: Create_prometheus_app_dir
   file:
@@ -44,7 +44,7 @@
     remote_src: yes
     extra_opts:
       - --strip-components=1
-  register: result_node_exporter
+  ignore_errors: "{{ ansible_check_mode }}"
 
 - name: Create_DB_directory
   file:
@@ -74,7 +74,7 @@
     src: "{{ prometheus.app_dir }}/console_libraries"
     dest: "{{ prometheus.lib_dir }}/"
     remote_src: yes
-  register: result_node_exporter
+  ignore_errors: "{{ ansible_check_mode }}"
 
 - name: Copy_files_prometheus_to_conf_catalog
   copy:
@@ -89,7 +89,7 @@
     - LICENSE
     - NOTICE
     - prometheus.yml
-  register: result_node_exporter
+  ignore_errors: "{{ ansible_check_mode }}"
 
 - name: Copy_files_prometheus_to_exec_dir
   copy:
@@ -103,7 +103,7 @@
     - prometheus
     - promtool
     - tsdb
-  register: result_node_exporter
+  ignore_errors: "{{ ansible_check_mode }}"
 
 - name: Copy_SystemD_unit_file_promethus
   template:

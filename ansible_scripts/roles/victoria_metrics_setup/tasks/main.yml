@@ -45,6 +45,7 @@
   with_items:
     - "{{ user.owner }}"
     - "{{ victoria_metrics.service.user }}"
+  ignore_errors: "{{ ansible_check_mode }}"
 
 - name: Create_victoria_metrics_app_dir
   file:
@@ -63,18 +64,21 @@
     src: "{{ path.tmp }}/{{ victoria_metrics_arch.distrib_cluster }}"
     dest: "{{ victoria_metrics.app_cluster_dir }}"
     remote_src: yes
+  ignore_errors: "{{ ansible_check_mode }}"
 
 - name: UnArchiv_victoria_metrics_server_distrib
   unarchive:
     src: "{{ path.tmp }}/{{ victoria_metrics_arch.distrib_server }}"
     dest: "{{ victoria_metrics.app_server_dir }}"
     remote_src: yes
+  ignore_errors: "{{ ansible_check_mode }}"
 
 - name: UnArchiv_victoria_metrics_utils_distrib
   unarchive:
     src: "{{ path.tmp }}/{{ victoria_metrics_arch.distrib_utils }}"
     dest: "{{ victoria_metrics.app_utils_dir }}"
     remote_src: yes
+  ignore_errors: "{{ ansible_check_mode }}"
 
 - name: Change_permissions_on_data_dir
   file:

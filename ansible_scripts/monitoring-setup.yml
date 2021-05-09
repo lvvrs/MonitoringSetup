@@ -5,6 +5,11 @@
   roles:
     - pre_install
     - update_dn
+
+- hosts: all
+  become: yes
+  gather_facts: False
+  roles:
     - node_exporter_setup
 
 - hosts: monitor_servers

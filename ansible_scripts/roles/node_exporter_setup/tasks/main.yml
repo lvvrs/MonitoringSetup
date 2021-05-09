@@ -44,6 +44,7 @@
     remote_src: yes
     extra_opts:
       - --strip-components=1
+    ignore_errors: "{{ ansible_check_mode }}"
 
 - name: Create_conf_and_exec_dir
   file:

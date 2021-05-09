@@ -1,0 +1,6 @@
+---
+- hosts: monitor_servers
+  become: yes
+  gather_facts: False
+  roles:
+    - prometheus_config_update

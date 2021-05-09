@@ -1,0 +1,56 @@
+groups:
+  - name: system_status_alerts_host_and_services
+    rules:
+      - alert: HostIsDown
+        expr: up == 0
+        for: 30s
+        labels:
+          severity: critical
+        annotations:
+          summary: "{{ $labels.instance }} is down, check instance"
+          description: "Instance {{ $labels.instance }} unrechable for monitoring"
+
+      - alert: GrafanaIsDown
+        expr: up{job="grafana_metrics"} == 0
+        for: 30s
+        labels:
+          severity: critical
+        annotations:
+          summary: "{{ $labels.job }} on {{ $labels.instance }} is down, check service  Grafana"
+          description: "Instance Grafana is unrechable for monitoring"
+
+      - alert: NodeExporterIsDown
+        expr: up{job="node_exporter"} == 0
+        for: 30s
+        labels:
+          severity: warning
+        annotations:
+          summary: "{{ $labels.job }} on {{ $labels.instance }} is down, check service  Node_Exporter"
+          description: "Instance Node_exporter is unrechable for monitoring"
+
+      - alert: VictoriaMetricsIsDown
+        expr: up{job="victoriametrics_server"} == 0
+        for: 30s
+        labels:
+          severity: critical
+        annotations:
+          summary: "{{ $labels.job }} on {{ $labels.instance }} is down, check service  Victoria_Metrics"
+          description: "Instance Victoria_Metrics is unrechable for monitoring"
+
+      - alert: PrometheusIsDown
+        expr: up{job="prometheus"} == 0
+        for: 30s
+        labels:
+          severity: critical
+        annotations:
+          summary: "{{ $labels.job }} on {{ $labels.instance }} is down, check service  Prometheus"
+          description: "Instance Prometheus is unrechable for monitoring"
+
+      - alert: AlertmanagerIsDown
+        expr: up{job="alertmanager_metrics"} == 0
+        for: 30s
+        labels:
+          severity: critical
+        annotations:
+          summary: "{{ $labels.job }} on {{ $labels.instance }} is down, check service Alertmanager"
+          description: "Instance Alertmanager is unrechable for monitoring"

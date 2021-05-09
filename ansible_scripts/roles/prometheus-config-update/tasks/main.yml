@@ -1,0 +1,43 @@
+---
+- name: Delete_old_files_Prometheus_configuration
+  file:
+    path: "{{ prometheus.conf_dir }}/{{ item }}"
+    state: absent
+  with_items:
+    - alerts_rules.yml
+    - prometheus.yml
+
+- name: Add_new_prometheus.yml_on_server
+  template:
+    src: prometheus.yml.j2
+    dest: "{{ prometheus.conf_dir }}/prometheus.yml"
+    owner: "{{ user.owner }}"
+    group: "{{ prometheus.sys_group }}"
+    mode: '664'
+
+- name: Add_new_alerts_rules.yml_on_server
+  copy:
+    src: alerts_rules.yml
+    dest: "{{ prometheus.conf_dir }}/alerts_rules.yml"
+    owner: "{{ user.owner }}"
+    group: "{{ prometheus.sys_group }}"
+    mode: '664'
+
+- name: Check_Prometheus_new_config
+  shell: "{{ prometheus.exec_dir }}/promtool check config {{ prometheus.conf_dir }}/prometheus.yml"
+  register: checking_result
+  ignore_errors: true
+
+- name: Apply_Prometheus_new_config
+  shell: "curl -X POST localhost:{{ prometheus.port }}/-/reload"
+  when: checking_result is succeeded
+
+- name: Print_Error_Message
+  debug:
+    msg: "Error apply configuration, print debug and fix Errors!"
+  when: checking_result is failed
+
+- name: Print_Debug_Message
+  debug:
+    var: checking_result
+  when: checking_result is failed

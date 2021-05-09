@@ -27,6 +27,7 @@
   with_items:
     - "{{ user.owner }}"
     - "{{ node_exporter.service.user }}"
+  ignore_errors: "{{ ansible_check_mode }}"
 
 - name: Create_node_exporter_app_dir
   file:

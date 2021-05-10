@@ -29,7 +29,9 @@
   ignore_errors: true
 
 - name: Apply_Prometheus_new_config
-  shell: "curl -X POST localhost:{{ prometheus.port }}/-/reload"
+  uri:
+    url: "http://localhost:{{ prometheus.port }}/-/reload"
+    method: POST
   when: checking_result is succeeded
 
 - name: Print_Error_Message
@@ -40,4 +42,5 @@
 - name: Print_Debug_Message
   debug:
     var: checking_result
+  failed_when: checking_result is failed
   when: checking_result is failed

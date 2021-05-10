@@ -38,7 +38,7 @@ scrape_configs:
         - {{ targets.mon }}:{{ targets.port }}
         - {{ targets.cli }}:{{ targets.port }}
         - {{ targets.sto }}:{{ targets.port }}
-        - new-host.test.local:9100
+      - new-host.test.local:9100
 
   - job_name: 'alertmanager_metrics'
     metrics_path: /metrics

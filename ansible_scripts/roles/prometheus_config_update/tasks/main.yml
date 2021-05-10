@@ -37,6 +37,7 @@
 - name: Print_Error_Message
   debug:
     msg: "Error apply configuration, print debug and fix Errors!"
+  failed_when: checking_result is failed
   when: checking_result is failed
 
 - name: Print_Debug_Message

@@ -84,14 +84,16 @@
 
 - name: Add_binary_fils_to_PATH
   file:
-    src: "{{ node_exporter.exec_dir }}/{{ item }}"
-    dest: "{{ symlink_path }}"
+    src: "{{ node_exporter.exec_dir }}/{{ file_name }}"
+    dest: "{{ symlink_path }}/{{ file_name }}"
     owner: root
     group: root
     state: link
     mode: '775'
   with_items:
     - node_exporter
+  loop_control:
+    loop_var: file_name
   ignore_errors: "{{ ansible_check_mode }}"
 
 - name: Copy_SystemD_unit_file_node_exporter

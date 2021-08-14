@@ -10,4 +10,4 @@ Node_exporter - App for scrape metrics from servers
 
 Stack for setup - jenkins with ansible.
 
-Branch: virtual_machine's install Apps on 4 virtual machine.
+Branch: virtual_machine's install Apps on 3 virtual machine.

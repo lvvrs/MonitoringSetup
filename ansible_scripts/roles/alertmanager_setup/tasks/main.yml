@@ -51,8 +51,8 @@
     path: "{{ alertmanager.db_dir }}"
     owner: "{{ alertmanager.service.user }}"
     group: "{{ alertmanager.sys_group }}"
-    recurse: yes
     mode: '775'
+    state: directory
 
 - name: Create_conf_and_exec_dir
   file:

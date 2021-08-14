@@ -93,7 +93,7 @@
     path: "{{ victoria_metrics.db_dir }}"
     owner: "{{ victoria_metrics.service.user }}"
     group: "{{ victoria_metrics.sys_group }}"
-    recurse: yes
+    state: directory
     mode: '775'
 
 - name: Create_exec_dir

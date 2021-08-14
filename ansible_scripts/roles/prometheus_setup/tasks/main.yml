@@ -51,7 +51,7 @@
     path: "{{ prometheus.db_dir }}"
     owner: "{{ prometheus.service.user }}"
     group: "{{ prometheus.sys_group }}"
-    recurse: yes
+    state: directory
     mode: '775'
 
 - name: Create_lib_dir

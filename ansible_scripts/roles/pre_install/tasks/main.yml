@@ -11,9 +11,9 @@
     - name: Create_data_directory_on_monitor_server
       file:
         path: "{{ path.data }}"
-        owner: "{{ user.owner }}"
-        group: "{{ user.group }}"
-        mode: '0770'
+        owner: 'root'
+        group: 'root'
+        mode: '0775'
         state: directory
 
   when: server_role == 'monitor_server'
@@ -28,9 +28,9 @@
     - name: Create_data_directory_on_storage_server
       file:
         path: "{{ path.data }}"
-        owner: "{{ user.owner }}"
-        group: "{{ user.group }}"
-        mode: '0770'
+        owner: 'root'
+        group: 'root'
+        mode: '0775'
         state: directory
 
   when: server_role == 'storage_server'

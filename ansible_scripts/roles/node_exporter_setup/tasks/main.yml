@@ -82,6 +82,18 @@
     - node_exporter
   ignore_errors: "{{ ansible_check_mode }}"
 
+- name: Add_binary_fils_to_PATH
+  file:
+    src: "{{ node_exporter.exec_dir }}/{{ item }}"
+    dest: "{{ symlink_path }}/{{ item }}"
+    owner: root
+    group: root
+    state: link
+    mode: '775'
+  with_items:
+    - node_exporter
+  ignore_errors: "{{ ansible_check_mode }}"
+
 - name: Copy_SystemD_unit_file_node_exporter
   template:
     src: node_exporter.service.j2

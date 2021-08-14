@@ -94,6 +94,7 @@
     owner: "{{ victoria_metrics.service.user }}"
     group: "{{ victoria_metrics.sys_group }}"
     recurse: yes
+    mode: '775'
 
 - name: Create_exec_dir
   file:
@@ -121,6 +122,26 @@
     - "{{ victoria_metrics.app_utils_dir }}/vmauth-prod"
     - "{{ victoria_metrics.app_utils_dir }}/vmbackup-prod"
     - "{{ victoria_metrics.app_utils_dir }}/vmrestore-prod"
+  ignore_errors: "{{ ansible_check_mode }}"
+
+- name: Add_binary_files_to_PATH
+  file:
+    src: "{{ victoria_metrics.exec_dir }}/{{ item }}"
+    dest: "{{ symlink_path }}/{{ item }}"
+    owner: root
+    group: root
+    state: link
+    mode: '775'
+  with_items:
+    - vminsert-prod
+    - vmselect-prod
+    - vmstorage-prod
+    - victoria-metrics-prod
+    - vmagent-prod
+    - vmalert-prod
+    - vmauth-prod
+    - vmbackup-prod
+    - vmrestore-prod
   ignore_errors: "{{ ansible_check_mode }}"
 
 - name: Copy_SystemD_unit_file_victoria_metrics

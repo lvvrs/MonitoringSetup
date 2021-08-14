@@ -52,6 +52,7 @@
     owner: "{{ prometheus.service.user }}"
     group: "{{ prometheus.sys_group }}"
     recurse: yes
+    mode: '775'
 
 - name: Create_lib_dir
   file:
@@ -98,6 +99,20 @@
     remote_src: yes
     owner: "{{ user.owner }}"
     group: "{{ prometheus.sys_group }}"
+    mode: '775'
+  with_items:
+    - prometheus
+    - promtool
+    - tsdb
+  ignore_errors: "{{ ansible_check_mode }}"
+
+- name: Add_binary_files_to_PATH
+  file:
+    src: "{{ prometheus.exec_dir }}/{{ item }}"
+    dest: "{{ symlink_path }}/{{ item }}"
+    owner: root
+    group: root
+    state: link
     mode: '775'
   with_items:
     - prometheus

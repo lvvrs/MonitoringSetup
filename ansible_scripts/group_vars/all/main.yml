@@ -25,3 +25,5 @@ node_exporter:
   unit_dir: '/etc/systemd/system'
   app_name: 'node_exporter'
   port: '9100'
+
+symlink_path: /usr/local/bin

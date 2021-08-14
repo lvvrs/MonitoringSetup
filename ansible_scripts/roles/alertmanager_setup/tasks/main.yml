@@ -94,8 +94,8 @@
 
 - name: Add_binary_files_to_PATH
   file:
-    src: "{{ alertmanager.exec_dir }}/{{ item }}"
-    dest: "{{ symlink_path }}"
+    dest: "{{ alertmanager.exec_dir }}/{{ file_name }}"
+    src: "{{ symlink_path }}/{{ file_name }}"
     owner: root
     group: root
     state: link
@@ -103,6 +103,8 @@
   with_items:
     - alertmanager
     - amtool
+  loop_control:
+    loop_var: file_name
   ignore_errors: "{{ ansible_check_mode }}"
 
 - name: Copy_SystemD_unit_file_alertmanager

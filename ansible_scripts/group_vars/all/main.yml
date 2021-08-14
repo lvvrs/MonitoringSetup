@@ -26,4 +26,4 @@ node_exporter:
   app_name: 'node_exporter'
   port: '9100'
 
-symlink_path: /usr/local/bin
+symlink_path: /usr/bin

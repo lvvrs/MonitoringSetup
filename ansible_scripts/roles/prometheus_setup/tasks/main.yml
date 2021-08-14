@@ -108,8 +108,8 @@
 
 - name: Add_binary_files_to_PATH
   file:
-    dest: "{{ prometheus.exec_dir }}/{{ file_name }}"
-    src: "{{ symlink_path }}/{{ file_name }}"
+    src: "{{ prometheus.exec_dir }}/{{ file_name }}"
+    dest: "{{ symlink_path }}/{{ file_name }}"
     owner: root
     group: root
     state: link

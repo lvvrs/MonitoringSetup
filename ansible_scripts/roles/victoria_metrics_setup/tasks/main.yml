@@ -126,8 +126,8 @@
 
 - name: Add_binary_files_to_PATH
   file:
-    dest: "{{ victoria_metrics.exec_dir }}/{{ file_name }}"
-    src: "{{ symlink_path }}/{{ file_name }}"
+    src: "{{ victoria_metrics.exec_dir }}/{{ file_name }}"
+    dest: "{{ symlink_path }}/{{ file_name }}"
     owner: root
     group: root
     state: link

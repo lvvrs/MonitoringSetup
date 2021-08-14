@@ -80,14 +80,6 @@
     remote_src: yes
   ignore_errors: "{{ ansible_check_mode }}"
 
-- name: Change_permissions_on_data_dir
-  file:
-    path: "{{ path.data }}"
-    state: touch
-    owner: "{{ user.owner }}"
-    group: "{{ victoria_metrics.sys_group }}"
-    mode: '775'
-
 - name: Create_DB_directory
   file:
     path: "{{ victoria_metrics.db_dir }}"

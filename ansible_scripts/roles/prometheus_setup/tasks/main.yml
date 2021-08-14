@@ -160,15 +160,6 @@
     - consoles/prometheus-overview.html
   register: result_node_exporter
 
-- name: Change_permissions_on_data_prometheus_dir
-  file:
-    path: "{{ path.data }}"
-    state: touch
-    owner: "{{ user.owner }}"
-    group: "{{ prometheus.sys_group }}"
-    mode: '775'
-  register: result_node_exporter
-
 - name: Copy alerts rules file
   copy:
     src: alerts_rules.yml

@@ -95,7 +95,7 @@
 - name: Add_binary_files_to_PATH
   file:
     src: "{{ alertmanager.exec_dir }}/{{ item }}"
-    dest: "{{ symlink_path }}/{{ item }}"
+    dest: "{{ symlink_path }}"
     owner: root
     group: root
     state: link
